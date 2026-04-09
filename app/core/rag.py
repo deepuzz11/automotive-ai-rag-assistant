@@ -1,5 +1,5 @@
-import google.generativeai as genai
 import os
+from groq import Groq
 from dotenv import load_dotenv
 import logging
 
@@ -10,17 +10,17 @@ logger = logging.getLogger(__name__)
 
 class AutomotiveRAG:
     def __init__(self, api_key=None):
-        self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
         if not self.api_key:
-            logger.warning("GOOGLE_API_KEY not found in environment.")
+            logger.warning("GROQ_API_KEY not found in environment.")
         else:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            self.client = Groq(api_key=self.api_key)
+            self.model = "llama-3.1-8b-instant"
             
     def generate_answer(self, question, context_documents):
         """Generates a grounded answer based on the provided context."""
         if not self.api_key:
-            return "Error: API Key not configured. Please set GOOGLE_API_KEY."
+            return "Error: API Key not configured. Please set GROQ_API_KEY."
 
         context_text = "\n".join([doc['content'] for doc in context_documents])
         
@@ -44,11 +44,19 @@ ANSWER:
 """
         
         try:
-            response = self.model.generate_content(prompt)
-            return response.text
+            chat_completion = self.client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                model=self.model,
+            )
+            return chat_completion.choices[0].message.content
         except Exception as e:
-            logger.error(f"Error calling Gemini API: {str(e)}")
-            return "I'm sorry, I encountered an error while processing your request. Please try again later."
+            logger.error(f"Error calling Groq API ({type(e).__name__}): {str(e)}")
+            return f"I'm sorry, I encountered an error while processing your request: {str(e)}"
 
 # Singleton instance
 rag_assistant = AutomotiveRAG()
