@@ -51,22 +51,22 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-@app.get("/", tags=["General"])
+@app.get("/", tags=["System Health"], operation_id="check_health")
 async def root():
-    """Health check endpoint."""
+    """Health check endpoint to verify system status."""
     return {
         "status": "online",
         "system": "Ford Vehicle Intelligence System API",
         "version": "1.1.0"
     }
 
-@app.post("/search", response_model=list[SearchResult], tags=["Search"])
-async def search(request: SearchRequest):
+@app.post("/search", response_model=list[SearchResult], tags=["Knowledge Retrieval"], operation_id="search_knowledge")
+async def search_knowledge(request: SearchRequest):
     """
     **Semantic Search for Vehicle Knowledge.**
     
-    Uses Sentence-Transformers and FAISS to find the most relevant 
-    manual text blocks or specifications based on semantic meaning.
+    Performs a high-dimensional vector search using FAISS to find technical 
+    specifications and manual content relevant to the user query.
     """
     try:
         results = engine.search(request.query)
@@ -82,14 +82,13 @@ async def search(request: SearchRequest):
         logger.error(f"Search error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal search engine error")
 
-@app.post("/ask", response_model=AskResponse, tags=["RAG"])
-async def ask(request: AskRequest):
+@app.post("/ask", response_model=AskResponse, tags=["AI Assistant"], operation_id="ask_assistant")
+async def ask_assistant(request: AskRequest):
     """
-    **RAG-Based Automotive Assistant.**
+    **RAG-Based Automotive AI Assistant.**
     
-    Retrieves relevant context from Ford manuals and uses an LLM (Groq Llama 3.1)
-    to generate a grounded, professional answer. 
-    Prevents hallucinations by strictly anchoring to retrieved data.
+    Generates professional, grounded answers about Ford vehicles by 
+    augmenting LLM prompts with verified technical context.
     """
     try:
         # 1. Retrieve relevant context (Top-3)
@@ -113,13 +112,13 @@ async def ask(request: AskRequest):
         logger.error(f"Ask error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal RAG engine error")
 
-@app.post("/recommend", response_model=RecommendResponse, tags=["Recommendation"])
-async def recommend(request: RecommendRequest):
+@app.post("/recommend", response_model=RecommendResponse, tags=["Vehicle Matching"], operation_id="recommend_vehicles")
+async def recommend_vehicles(request: RecommendRequest):
     """
-    **Logic-Based Vehicle Recommendation.**
+    **Attribute-Based Vehicle Recommendations.**
     
-    Matches user requirements (e.g., 'family SUV', 'towing truck') against 
-    vehicle attributes using structured logic and attribute filtering.
+    Analyzes user requirements (e.g., towing capacity, family seating) 
+    and returns top matching Ford models with logical reasoning.
     """
     try:
         results = recommender.recommend(request.needs)
