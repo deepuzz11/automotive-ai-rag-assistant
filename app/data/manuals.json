@@ -1,0 +1,62 @@
+[
+  {
+    "topic": "Engine Oil Pressure Warning",
+    "content": "If the oil pressure warning light stays on or flashes while driving, pull over safely and turn off the engine immediately. Check the oil level. If the level is low, add oil before restarting. If the light remains on, do not restart; call for roadside assistance.",
+    "category": "Dashboard Warnings"
+  },
+  {
+    "topic": "Brake System Warning",
+    "content": "A red brake warning light indicates a potential fault in the braking system or that the parking brake is engaged. Ensure the parking brake is fully released. If the light persists, have the system inspected immediately by a qualified technician.",
+    "category": "Dashboard Warnings"
+  },
+  {
+    "topic": "Tire Pressure Monitoring System (TPMS)",
+    "content": "The TPMS light illuminates when one or more tires are significantly under-inflated. Check all tire pressures and adjust to the recommended PSI found on the driver-side door jamb. The light will turn off after driving a short distance.",
+    "category": "Dashboard Warnings"
+  },
+  {
+    "topic": "Check Engine Light (MIL)",
+    "content": "A solid Check Engine light indicates a problem with the vehicle's emissions system. Driving is typically safe, but you should have it inspected soon. A flashing Check Engine light indicates a severe misfire that could damage your catalytic converter; reduce speed and seek immediate service.",
+    "category": "Dashboard Warnings"
+  },
+  {
+    "topic": "Battery Charge Warning",
+    "content": "If this light illuminates while driving, the battery is not charging. Turn off unnecessary electrical accessories (AC, radio) and drive immediately to a service center. If the vehicle stalls, do not attempt to restart.",
+    "category": "Dashboard Warnings"
+  },
+  {
+    "topic": "Engine Overheating",
+    "content": "If the temperature gauge enters the red zone, safely pull over and allow the engine to cool. Do not open the hood or radiator cap while the engine is hot. Check coolant levels once cooled and top up if necessary.",
+    "category": "Troubleshooting"
+  },
+  {
+    "topic": "Dead Battery Troubleshooting",
+    "content": "If your vehicle won't start and you hear a clicking sound, your battery may be drained. You can attempt to jump-start the vehicle using a second car and jumper cables, or contact roadside assistance.",
+    "category": "Troubleshooting"
+  },
+  {
+    "topic": "Key Fob Not Recognized",
+    "content": "If the vehicle does not detect the key fob, place it in the backup slot (usually located in the center console or glove box) to allow the vehicle to start. This may indicate a low battery in the fob.",
+    "category": "Troubleshooting"
+  },
+  {
+    "topic": "Adaptive Cruise Control (ACC) info",
+    "content": "ACC maintains a set speed and a set distance between your vehicle and the vehicle in front. It uses radar and camera sensors. If the sensors are blocked by dirt, snow, or rain, the system may deactivate.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Lane-Keeping System",
+    "content": "The Lane-Keeping System uses a camera mounted behind the rearview mirror to monitor lane markings. It provides steering assistance or vibration alerts if you unintentionally drift out of your lane.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Ford BlueCruise",
+    "content": "BlueCruise allows for hands-free highway driving on pre-qualified sections of divided highways called Hands-Free Blue Zones. A driver-facing camera ensures you are keeping your eyes on the road.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Sync 4 System Reset",
+    "content": "If the infotainment screen freezes, you can perform a soft reset by holding the Volume Down and Seek Forward buttons on the steering wheel simultaneously for 10 seconds.",
+    "category": "Troubleshooting"
+  }
+]

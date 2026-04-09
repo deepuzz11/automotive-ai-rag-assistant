@@ -1,0 +1,66 @@
+[
+  {
+    "service": "Oil Change",
+    "frequency": "7,500 - 10,000 miles",
+    "details": "Change engine oil and filter. Check Intelligent Oil-Life Monitor status.",
+    "applicable_models": ["All Ford Gasoline/Hybrid Models"]
+  },
+  {
+    "service": "Tire Rotation",
+    "frequency": "Every 5,000 - 8,000 miles",
+    "details": "Rotate tires to ensure even wear and prolong tire life.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "service": "Brake Inspection",
+    "frequency": "Every 10,000 - 15,000 miles",
+    "details": "Inspect brake pads, rotors, and fluid levels. Replace if necessary.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "service": "Cabin Air Filter Replacement",
+    "frequency": "Every 15,000 - 20,000 miles",
+    "details": "Replace the cabin air filter to maintain air quality inside the vehicle.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "service": "Engine Air Filter Replacement",
+    "frequency": "Every 30,000 miles",
+    "details": "Replace engine air filter to maintain optimal fuel efficiency and engine performance.",
+    "applicable_models": ["All Ford Gasoline/Hybrid Models"]
+  },
+  {
+    "service": "Spark Plug Replacement",
+    "frequency": "Every 60,000 - 100,000 miles",
+    "details": "Replace spark plugs to ensure smooth engine operation and prevent misfires.",
+    "applicable_models": ["Ford F-150", "Mustang", "Explorer", "Expedition", "Ranger"]
+  },
+  {
+    "service": "Transmission Fluid Change",
+    "frequency": "Every 150,000 miles",
+    "details": "Flush and replace transmission fluid for long-term transmission health.",
+    "applicable_models": ["All Ford Models with Automatic Transmission"]
+  },
+  {
+    "service": "Engine Coolant Flush",
+    "frequency": "Every 100,000 miles",
+    "details": "Flush and replace engine coolant to prevent overheating and corrosion.",
+    "applicable_models": ["All Ford Gasoline/Hybrid Models"]
+  },
+  {
+    "service": "Electric Vehicle Coolant System Check",
+    "frequency": "Every 20,000 miles",
+    "details": "Inspect the specialized cooling system for the high-voltage battery pack.",
+    "applicable_models": ["Ford Mustang Mach-E"]
+  },
+  {
+    "warranty": "Standard Warranty",
+    "details": "3-year/36,000-mile Bumper-to-Bumper Warranty and 5-year/60,000-mile Powertrain Warranty.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "warranty": "EV Battery Warranty",
+    "details": "8-year/100,000-mile warranty for high-voltage battery and associated components.",
+    "applicable_models": ["Ford Mustang Mach-E", "F-150 Lightning", "Hybrid Models"]
+  }
+]

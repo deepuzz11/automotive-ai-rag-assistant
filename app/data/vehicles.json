@@ -1,0 +1,101 @@
+[
+  {
+    "model": "Ford F-150",
+    "type": "Pickup Truck",
+    "engine": "3.5L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Pre-Collision Assist", "Blind Spot Information System", "Lane-Keeping System"],
+    "seats": 5,
+    "towing_capacity": "14,000 lbs",
+    "description": "The Ford F-150 is a powerful pickup truck designed for tough jobs and heavy towing."
+  },
+  {
+    "model": "Ford Mustang",
+    "type": "Sports Car",
+    "engine": "5.0L Ti-VCT V8",
+    "transmission": "6-Speed Manual / 10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Stabilitrak", "Post-Collision Braking", "Lane Departure Warning"],
+    "seats": 4,
+    "towing_capacity": "N/A",
+    "description": "The Ford Mustang is an iconic sports car known for its performance and style."
+  },
+  {
+    "model": "Ford Explorer",
+    "type": "SUV",
+    "engine": "2.3L EcoBoost I-4",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline / Hybrid",
+    "safety_features": ["Adaptive Cruise Control", "Evasive Steering Assist", "360-Degree Camera"],
+    "seats": 7,
+    "towing_capacity": "5,600 lbs",
+    "description": "The Ford Explorer is a versatile family SUV with three rows of seating and advanced safety tech."
+  },
+  {
+    "model": "Ford Escape",
+    "type": "SUV",
+    "engine": "1.5L EcoBoost I-3",
+    "transmission": "8-Speed Automatic",
+    "fuel_type": "Gasoline / Hybrid / Plug-in Hybrid",
+    "safety_features": ["Active Park Assist 2.0", "Intersection Assist", "Blind Spot Monitoring"],
+    "seats": 5,
+    "towing_capacity": "3,500 lbs",
+    "description": "The Ford Escape is a compact SUV perfect for city driving and weekend getaways."
+  },
+  {
+    "model": "Ford Ranger",
+    "type": "Mid-size Pickup Truck",
+    "engine": "2.3L EcoBoost I-4",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Forward Collision Warning", "Dynamic Brake Support", "Pedestrian Detection"],
+    "seats": 5,
+    "towing_capacity": "7,500 lbs",
+    "description": "The Ford Ranger is a capable mid-size truck that offers a balance of power and efficiency."
+  },
+  {
+    "model": "Ford Maverick",
+    "type": "Compact Pickup Truck",
+    "engine": "2.5L Hybrid / 2.0L EcoBoost",
+    "transmission": "CVT / 8-Speed Automatic",
+    "fuel_type": "Hybrid / Gasoline",
+    "safety_features": ["Auto High-Beam Headlamps", "Rear View Camera", "Pre-Collision Assist"],
+    "seats": 5,
+    "towing_capacity": "2,000 - 4,000 lbs",
+    "description": "The Ford Maverick is the first standard hybrid pickup truck, perfect for city life and outdoor adventure."
+  },
+  {
+    "model": "Ford Bronco",
+    "type": "Off-Road SUV",
+    "engine": "2.7L EcoBoost V6",
+    "transmission": "10-Speed Automatic / 7-Speed Manual",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Terrain Management System (G.O.A.T. Modes)", "Trail Control", "Roll Stability Control"],
+    "seats": 4,
+    "towing_capacity": "3,500 lbs",
+    "description": "The Ford Bronco is a rugged off-road machine designed for extreme trails and wilderness exploration."
+  },
+  {
+    "model": "Ford Expedition",
+    "type": "Full-size SUV",
+    "engine": "3.5L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Ford Co-Pilot360", "Pro Trailer Backup Assist", "BlueCruise"],
+    "seats": 8,
+    "towing_capacity": "9,300 lbs",
+    "description": "The Ford Expedition is the ultimate full-size family SUV with massive towing and seating for up to eight."
+  },
+  {
+    "model": "Ford Mustang Mach-E",
+    "type": "Electric SUV",
+    "engine": "Electric (Single/Dual Motor)",
+    "transmission": "Single-Speed",
+    "fuel_type": "Electric",
+    "safety_features": ["One-Pedal Driving", "Post-Collision Braking", "Reverse Brake Assist"],
+    "seats": 5,
+    "towing_capacity": "N/A",
+    "description": "The Mustang Mach-E is Ford's flagship electric SUV, combining performance legendary Mustang DNA with modern EV technology."
+  }
+]
