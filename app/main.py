@@ -2,7 +2,10 @@ import os
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
+from fastapi.middleware.cors import CORSMiddleware
 from .core.embeddings import engine
 from .core.rag import rag_assistant
 from .core.recommender import recommender
@@ -74,8 +77,27 @@ app = FastAPI(
     openapi_tags=tags_metadata
 )
 
-@app.get("/", tags=["system_health"], operation_id="check_health")
-async def root():
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Mount static files
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+frontend_dir = os.path.join(base_dir, "frontend")
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+@app.get("/", tags=["system_health"], include_in_schema=False)
+async def serve_frontend():
+    """Serves the main frontend application."""
+    return FileResponse(os.path.join(frontend_dir, "index.html"))
+
+@app.get("/api/health", tags=["system_health"], operation_id="check_health")
+async def health_check():
     """Health check endpoint to verify system status."""
     return {
         "status": "online",

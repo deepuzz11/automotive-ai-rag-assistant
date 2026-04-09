@@ -1,0 +1,301 @@
+:root {
+    --ford-blue: #003478;
+    --ford-blue-light: #00529b;
+    --ford-silver: #a6a9aa;
+    --ford-dark-gray: #1a1a1a;
+    --accent: #00d4ff;
+    --bg-dark: #05070a;
+    --bg-card: rgba(10, 15, 25, 0.8);
+    --text-main: #f0f0f0;
+    --text-muted: #8e9aaf;
+    --glass-border: rgba(0, 212, 255, 0.15);
+    --success: #00ffa3;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    line-height: 1.6;
+    overflow-x: hidden;
+    /* Industrial mesh background */
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(0, 52, 120, 0.1) 0%, transparent 80%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+}
+
+/* Ford-like Header Bar */
+.top-nav {
+    border-bottom: 2px solid var(--ford-blue);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ford-oval {
+    width: 60px;
+    height: 35px;
+    background: linear-gradient(135deg, var(--ford-blue-light), var(--ford-blue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.logo-text {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: var(--ford-silver);
+}
+
+/* Dashboard Layout */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    padding: 1.2rem;
+    border-radius: 4px; /* More industrial sharp corners */
+    cursor: pointer;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: var(--ford-blue);
+    transition: width 0.3s;
+    z-index: -1;
+}
+
+.sidebar-btn:hover {
+    color: white;
+    border-color: var(--accent);
+}
+
+.sidebar-btn.active {
+    color: white;
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.05);
+}
+
+.sidebar-btn.active::before {
+    width: 100%;
+}
+
+/* Main Content Area */
+.main-viewport {
+    min-height: 70vh;
+}
+
+.tab-content {
+    display: none;
+    animation: slideUp 0.4s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* "Intelligence" Cards */
+.intel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: var(--glow-shadow);
+    padding: 2.5rem;
+    backdrop-filter: blur(15px);
+    position: relative;
+}
+
+/* Chat Industrial Styling */
+#chat-history {
+    height: 450px;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding-right: 1rem;
+}
+
+.message {
+    padding: 1.2rem;
+    border-radius: 4px;
+    max-width: 80%;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--accent);
+}
+
+.ai-message {
+    align-self: flex-start;
+    background: linear-gradient(135deg, rgba(0, 52, 120, 0.3), rgba(0, 0, 0, 0.2));
+    border: 1px solid var(--glass-border);
+    border-left: 4px solid var(--accent);
+}
+
+/* High-Tech Inputs */
+.input-frame {
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+}
+
+input[type="text"], textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+}
+
+.action-btn {
+    background: var(--ford-blue);
+    color: white;
+    border: none;
+    padding: 0 2rem;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.action-btn:hover {
+    background: var(--ford-blue-light);
+    box-shadow: 0 0 15px rgba(0, 82, 155, 0.5);
+}
+
+/* Results Display */
+.result-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.result-hex {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    animation: fadeIn 0.5s ease;
+}
+
+.result-hex h4 {
+    color: var(--accent);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 4px;
+}
+
+/* Source Badges */
+.source-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--ford-blue);
+    color: white;
+    font-size: 0.7rem;
+    border-radius: 2px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+    .sidebar { flex-direction: row; flex-wrap: wrap; }
+    .sidebar-btn { flex: 1; text-align: center; }
+}
+
+/* Loader */
+.loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
