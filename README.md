@@ -102,34 +102,37 @@ docker run -p 8000:8000 --env-file .env ford-ai-assistant
 
 ---
 
-## Architecture Explanation
+## Architecture & Technical Deep-Dive
 
-The system is built on a modular pipeline designed for precision and safety.
+This system is designed as a production-ready **RAG (Retrieval-Augmented Generation)** pipeline. Here is the technical breakdown:
 
-### 1. Semantic Search & Embeddings
-Instead of keyword matching, we use **Dense Vector Embeddings** to understand the intent behind a query.
-- **Embeddings**: We use `all-MiniLM-L6-v2` to map text to a 384-dimensional space.
-- **Similarity Metric**: **Cosine Similarity**. We use `faiss.normalize_L2` on both document and query vectors before performing an Inner Product search (`IndexFlatIP`). This ensures that semantically similar concepts are ranked accurately regardless of text length.
+### 1. What is RAG?
+**Retrieval-Augmented Generation** combines a high-performance search engine with a Large Language Model (LLM). Instead of the LLM guessing based on its training data, we provide it with real, verified documentation (retrieved in real-time) to ensure answers are strictly **grounded** in truth.
 
-### 2. Retrieval-Augmented Generation (RAG)
-**What is RAG?**
-A technique to give LLMs access to specific, private data (like vehicle manuals) without the need for expensive retraining.
+### 2. Why Grounding Matters?
+In the **automotive industry**, technical accuracy is not optional—it is a safety requirement. Hallucinated service intervals, torque specs, or dashboard warning definitions can lead to vehicle damage, warranty voidance, or even physical safety risks for the driver.
 
-**Chunking Strategy:**
-Manual text is split into smaller chunks (100–300 words) for better semantic retrieval and to ensure context relevance.
+### 3. User Query Pipeline (Architecture Flow)
+The system follows a linear, high-integrity pipeline:
+1.  **User Query**: The user asks a question (e.g., "Towing capacity of Ranger?").
+2.  **Embedding**: We use **sentence-transformers** (`all-MiniLM-L6-v2`) to convert the query into a dense 384-dimensional vector.
+3.  **Vector Search (FAISS)**: We perform a semantic search against our database.
+4.  **Ranking (Cosine Similarity)**: Results are ranked using the **Cosine Similarity** formula. We ensure this by L2-normalizing vectors and using an Inner Product search (`IndexFlatIP`).
+5.  **Context Injection**: The Top-3 most relevant chunks are injected into the LLM prompt.
+6.  **Grounded Response**: The LLM (Llama 3.1) synthesizes a final answer using **only** the provided context.
 
-**Why Grounding is Important?**
-In the automotive domain, a "hallucinated" service interval or warning light description could lead to severe vehicle damage, warranty voidance, or safety risks. Grounding ensures accuracy by anchoring the AI to verified data.
+### 4. Chunking & Search Logic
+- **Chunking Logic**: Manuals are not stored as giant files. They are split into **100–300 word blocks** to ensure high semantic granularity and context relevance during retrieval.
+- **Intent Detection**: The system handles casual inputs (e.g., "Hello") through a dedicated intent layer, preventing unnecessary retrieval and ensuring a clean UX.
 
-**Hallucination Causes:**
-Usually caused by the LLM trying to "fill in the blanks" using its general training data when the specific manual information is missing or not provided in the context.
+### 5. Hallucination Mitigation (Fail-Safe Design)
+We implement a multi-layered defense against AI "hallucinations":
+- **Strict Prompting**: The LLM is explicitly instructed to answer using **ONLY** the provided context.
+- **Fail-Safe Response**: If the answer is not in the documentation, the system must say "I don't know" rather than guessing.
+- **Low Temperature**: Set to `0.1` to maximize deterministic output and minimize creative "drift".
 
-**Hallucination Mitigation:**
-- **Top-K Retrieval**: The Top-3 (k=3) most relevant document chunks are retrieved using **Cosine Similarity** to ensure the LLM has sufficient but focused context.
-- **Context Injection**: The prompt includes retrieved snippets from manuals and specs.
-- **Strict Constraints**: The LLM is explicitly forbidden from using prior knowledge to fill gaps. If the answer isn't in the context, it must say "I don't know."
-- **Fail-Safe Design**: The system is designed to fail safely — returning no results or fallback messages instead of producing incorrect or hallucinated outputs.
-- **Low Temperature**: Set to `0.1` to ensure deterministic and focused output.
+### 6. Scoring: Match Relevance
+The score shown as "Match Relevance" is the raw **Cosine Similarity** score (0.0 to 1.0). This represents the mathematical confidence that the retrieved document block matches the user's semantic intent.This metric represents the semantic closeness of the user's intent to the stored documentation.
 
 ### 3. Recommendation Logic
 The recommendation module uses **Attribute Matching**. It maps user intents (e.g., "towing", "family") to specific vehicle capabilities like `seats` and `towing_capacity`, providing top-2 suggestions with explainable reasoning.

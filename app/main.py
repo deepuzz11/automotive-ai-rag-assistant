@@ -132,11 +132,30 @@ async def ask_assistant(request: AskRequest):
     """
     **RAG-Based Automotive AI Assistant.**
     
-    Generates professional, grounded answers about Ford vehicles by 
-    augmenting LLM prompts with verified technical context.
+    Generates professional, grounded answers about Ford vehicles. 
+    Includes basic intent detection to handle greetings and small talk efficiently.
     """
     try:
-        # 1. Retrieve relevant context (Top-3)
+        # 1. Simple Intent Detection for Greetings & Casual Closing Phrases
+        # This layer prevents unnecessary retrieval for non-informational inputs.
+        query_clean = request.question.lower().strip().rstrip('?!.')
+        
+        greetings = ["hi", "hello", "hey", "hola", "greetings"]
+        closing_phrases = ["thanks", "thank you", "ok", "okay", "bye", "no need", "that's all"]
+        
+        if query_clean in greetings:
+            return AskResponse(
+                answer="Hello! I'm your Ford Vehicle Intelligence Assistant. How can I help you today?",
+                context_used=[]
+            )
+        
+        if query_clean in closing_phrases:
+            return AskResponse(
+                answer="You're very welcome! Let me know if you need any more help with your vehicle in the future. Drive safely!",
+                context_used=[]
+            )
+
+        # 2. Retrieve relevant context (Top-3)
         context_docs = engine.search(request.question, top_k=3)
         
         # 2. Generate grounded answer via LLM
