@@ -37,6 +37,26 @@ async def lifespan(app: FastAPI):
     
     logger.info("Shutting down Ford Vehicle Intelligence System...")
 
+# Define metadata for tags to ensure clean URLs while maintaining professional display names in Swagger UI
+tags_metadata = [
+    {
+        "name": "system_health",
+        "description": "Operations to verify the operational status of the API.",
+    },
+    {
+        "name": "knowledge_retrieval",
+        "description": "Semantic search operations across vehicle manuals and technical specifications.",
+    },
+    {
+        "name": "ai_assistant",
+        "description": "RAG-based AI interactions providing grounded answers to automotive queries.",
+    },
+    {
+        "name": "vehicle_matching",
+        "description": "Logic-based recommendation engine for matching vehicles to user needs.",
+    },
+]
+
 app = FastAPI(
     title="Ford Vehicle Intelligence System",
     description="""
@@ -48,10 +68,11 @@ app = FastAPI(
     * **Vehicle Recommendation**: Logic-based matching for family and utility needs.
     """,
     version="1.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    openapi_tags=tags_metadata
 )
 
-@app.get("/", tags=["System Health"], operation_id="check_health")
+@app.get("/", tags=["system_health"], operation_id="check_health")
 async def root():
     """Health check endpoint to verify system status."""
     return {
@@ -60,7 +81,7 @@ async def root():
         "version": "1.1.0"
     }
 
-@app.post("/search", response_model=list[SearchResult], tags=["Knowledge Retrieval"], operation_id="search_knowledge")
+@app.post("/search", response_model=list[SearchResult], tags=["knowledge_retrieval"], operation_id="search_knowledge")
 async def search_knowledge(request: SearchRequest):
     """
     **Semantic Search for Vehicle Knowledge.**
@@ -82,7 +103,7 @@ async def search_knowledge(request: SearchRequest):
         logger.error(f"Search error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal search engine error")
 
-@app.post("/ask", response_model=AskResponse, tags=["AI Assistant"], operation_id="ask_assistant")
+@app.post("/ask", response_model=AskResponse, tags=["ai_assistant"], operation_id="ask_assistant")
 async def ask_assistant(request: AskRequest):
     """
     **RAG-Based Automotive AI Assistant.**
@@ -112,7 +133,7 @@ async def ask_assistant(request: AskRequest):
         logger.error(f"Ask error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal RAG engine error")
 
-@app.post("/recommend", response_model=RecommendResponse, tags=["Vehicle Matching"], operation_id="recommend_vehicles")
+@app.post("/recommend", response_model=RecommendResponse, tags=["vehicle_matching"], operation_id="recommend_vehicles")
 async def recommend_vehicles(request: RecommendRequest):
     """
     **Attribute-Based Vehicle Recommendations.**
