@@ -16,3 +16,6 @@ venv/
 # IDEs
 .vscode/
 .idea/
+
+# Custom Test Files
+test_requests.txt
