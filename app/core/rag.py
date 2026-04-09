@@ -59,10 +59,10 @@ USER QUESTION:
 
 STRICT INSTRUCTIONS:
 1. Use ONLY the provided context to answer the question.
-2. If the answer is not in the context, explicitly state that you don't have that specific information in your records and suggest contacting a Ford dealership.
-3. Do NOT hallucinate features, specs, or service intervals not mentioned in the context.
-4. Keep the tone professional, concise, and safety-focused.
-5. If the question is about a safety warning or dashboard light, prioritize clear, actionable instructions.
+2. If the answer is not in the context, explicitly state that you don't have that specific information and suggest contacting a Ford dealership.
+3. Do NOT hallucinate features or service intervals.
+4. Format your response clearly: Use a bold summary line followed by bullet points for specific intervals or steps.
+5. If the question is about a service interval, list all relevant maintenance items found in the context for that specific model.
 
 ANSWER:
 """

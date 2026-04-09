@@ -20,6 +20,7 @@ A specialized RAG-based (Retrieval-Augmented Generation) assistant designed to h
 | Component | Technology |
 | :--- | :--- |
 | **Backend** | Python 3.10+, FastAPI |
+| **Frontend** | Vanilla JS, CSS3, HTML5 (Served via FastAPI) |
 | **Vector DB** | FAISS (IndexFlatIP) |
 | **Embeddings** | Sentence-Transformers (`all-MiniLM-L6-v2`) |
 | **LLM** | Groq Llama 3.1 (8B) |
@@ -37,6 +38,10 @@ A specialized RAG-based (Retrieval-Augmented Generation) assistant designed to h
 │   │   └── recommender.py # Vehicle Recommendation Logic
 │   ├── main.py         # FastAPI Entry Point & Routes
 │   └── models.py       # Pydantic Schemas (Input/Output)
+├── frontend/           # Modern UI Assets
+│   ├── index.html      # Main Application View
+│   ├── style.css       # Premium Design & Animations
+│   └── script.js       # API Integration Logic
 ├── data/               # Synthetic Datasets (JSON)
 ├── tests/              # API Testing Suite
 ├── Dockerfile          # Container Configuration
@@ -76,7 +81,10 @@ GROQ_API_KEY=your_groq_api_key_here
 ```bash
 uvicorn app.main:app --reload
 ```
-The API will be available at `http://localhost:8000`. Explore the interactive documentation at `http://localhost:8000/docs`.
+The application will be available at:
+- **UI**: `http://localhost:8000/`
+- **Docs**: `http://localhost:8000/docs`
+- **Health**: `http://localhost:8000/api/health`
 
 ---
 
@@ -117,7 +125,7 @@ In the automotive domain, a "hallucinated" service interval or warning light des
 Usually caused by the LLM trying to "fill in the blanks" using its general training data when the specific manual information is missing or not provided in the context.
 
 **Hallucination Mitigation:**
-- **Top-K Retrieval**: We explicitly retrieve the **Top-3 (k=3)** most relevant document chunks to ensure the LLM has sufficient but focused context.
+- **Top-K Retrieval**: The Top-3 (k=3) most relevant document chunks are retrieved using **Cosine Similarity** to ensure the LLM has sufficient but focused context.
 - **Context Injection**: The prompt includes retrieved snippets from manuals and specs.
 - **Strict Constraints**: The LLM is explicitly forbidden from using prior knowledge to fill gaps. If the answer isn't in the context, it must say "I don't know."
 - **Fail-Safe Design**: The system is designed to fail safely — returning no results or fallback messages instead of producing incorrect or hallucinated outputs.
@@ -132,7 +140,8 @@ The recommendation module uses **Attribute Matching**. It maps user intents (e.g
 
 ```mermaid
 graph TD
-    User([User Query]) --> API[FastAPI Layer]
+    User([User]) --> UI[Web Frontend]
+    UI --> API[FastAPI Layer]
     API --> Intent{Module Selection}
     
     Intent --> Search[/search - Semantic Retrieval/]

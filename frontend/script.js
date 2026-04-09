@@ -1,5 +1,11 @@
 const API_BASE_URL = 'http://localhost:8000';
 
+// Helper to clean markdown bold
+function cleanText(text) {
+    if (typeof text !== 'string') return text;
+    return text.replace(/\*\*/g, '');
+}
+
 // Tab logic
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -61,8 +67,8 @@ async function askAssistant() {
                 item.className = 'result-hex';
                 item.style.fontSize = '0.85rem';
                 item.innerHTML = `
-                    <div class="source-badge">${src.source}</div>
-                    <p style="margin-top: 8px;">${src.content.substring(0, 200)}...</p>
+                    <div class="source-badge">${src.source} | MATCH RELEVANCE: ${(src.score * 100).toFixed(1)}%</div>
+                    <p style="margin-top: 8px;">${cleanText(src.content).substring(0, 200)}...</p>
                 `;
                 grid.appendChild(item);
             });
@@ -82,10 +88,12 @@ function addMessage(text, side) {
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${side === 'user' ? 'user-message' : 'ai-message'}`;
     
+    const msgClean = cleanText(text);
+
     if (side === 'ai') {
-        msgDiv.innerHTML = `<strong>INTEL_LOG:</strong><br>${text.replace(/\n/g, '<br>')}`;
+        msgDiv.innerHTML = msgClean.replace(/\n/g, '<br>');
     } else {
-        msgDiv.textContent = text;
+        msgDiv.textContent = msgClean;
     }
     
     chatHistory.appendChild(msgDiv);
@@ -121,8 +129,8 @@ async function performSearch() {
                 const item = document.createElement('div');
                 item.className = 'result-hex';
                 item.innerHTML = `
-                    <h4>${res.source} | RELABILITY: ${(res.score * 100).toFixed(1)}%</h4>
-                    <p>${res.content}</p>
+                    <h4>${res.source} | MATCH RELEVANCE: ${(res.score * 100).toFixed(1)}%</h4>
+                    <p>${cleanText(res.content)}</p>
                     <div class="source-badge">UID: ${res.id}</div>
                 `;
                 list.appendChild(item);
@@ -168,7 +176,7 @@ async function getRecommendations() {
                 item.style.borderLeft = '4px solid var(--accent)';
                 item.innerHTML = `
                     <h3 style="color: white; margin-bottom: 0.5rem;">${rec.model.toUpperCase()}</h3>
-                    <p style="font-size: 0.9rem; border-top: 1px solid var(--glass-border); padding-top: 10px;">${rec.reasoning}</p>
+                    <p style="font-size: 0.9rem; border-top: 1px solid var(--glass-border); padding-top: 10px;">${cleanText(rec.reasoning)}</p>
                     <div class="source-badge">RELEVANCE: ${(rec.score * 100).toFixed(0)}%</div>
                 `;
                 list.appendChild(item);

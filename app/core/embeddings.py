@@ -53,12 +53,13 @@ class AutomotiveSearchEngine:
             
             elif file == 'maintenance.json':
                 for item in data:
+                    models_str = ", ".join(item.get('applicable_models', []))
                     if 'service' in item:
-                        text = f"Service: {item['service']}. Frequency: {item['frequency']}. Details: {item['details']}"
+                        text = f"Service: {item['service']}. Frequency: {item['frequency']}. Details: {item['details']}. Applicable Models: {models_str}"
                         self.documents.append(text)
                         self.metadata.append({"source": file, "id": item['service']})
                     elif 'warranty' in item:
-                        text = f"Warranty: {item['warranty']}. Details: {item['details']}"
+                        text = f"Warranty: {item['warranty']}. Details: {item['details']}. Applicable Models: {models_str}"
                         self.documents.append(text)
                         self.metadata.append({"source": file, "id": item['warranty']})
             
