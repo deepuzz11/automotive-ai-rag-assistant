@@ -1,8 +1,8 @@
 import json
 import os
+from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
 import logging
 import warnings
 
