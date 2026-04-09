@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 class VehicleRecommender:
     def __init__(self, vehicles_path):
@@ -28,34 +29,34 @@ class VehicleRecommender:
             }
             
             # Scoring logic
-            if any(k in query for k in keywords["family"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["family"]):
                 if vehicle["seats"] >= 5:
                     score += 2
                     reasoning.append(f"Provides ample seating ({vehicle['seats']} seats) for families.")
                 if vehicle["type"] == "SUV":
                     score += 1
             
-            if any(k in query for k in keywords["towing"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["towing"]):
                 if vehicle["towing_capacity"] != "N/A":
                     score += 3
                     reasoning.append(f"High towing capacity of {vehicle['towing_capacity']}.")
             
-            if any(k in query for k in keywords["truck"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["truck"]):
                 if "Truck" in vehicle["type"]:
                     score += 3
                     reasoning.append("Solid pickup truck build for utility.")
                     
-            if any(k in query for k in keywords["sports"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["sports"]):
                 if vehicle["type"] == "Sports Car":
                     score += 5
                     reasoning.append("Iconic sports car performance and V8 power.")
             
-            if any(k in query for k in keywords["suv"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["suv"]):
                 if vehicle["type"] == "SUV":
                     score += 3
                     reasoning.append("Versatile SUV body style.")
                     
-            if any(k in query for k in keywords["city"]):
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["city"]):
                 if vehicle["model"] == "Ford Escape":
                     score += 4
                     reasoning.append("Compact size ideal for city navigation and parking.")

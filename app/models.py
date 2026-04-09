@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class SearchRequest(BaseModel):
-    query: str = Field(..., example="Which Ford SUV has 7 seats?")
+    query: str = Field(..., min_length=1, example="Which Ford SUV has 7 seats?")
 
 class SearchResult(BaseModel):
     content: str
@@ -11,14 +11,14 @@ class SearchResult(BaseModel):
     score: float
 
 class AskRequest(BaseModel):
-    question: str = Field(..., example="Service interval for Ford Ranger 2023?")
+    question: str = Field(..., min_length=1, example="Service interval for Ford Ranger 2023?")
 
 class AskResponse(BaseModel):
     answer: str
     context_used: List[SearchResult]
 
 class RecommendRequest(BaseModel):
-    needs: str = Field(..., example="I need a family SUV with lots of space")
+    needs: str = Field(..., min_length=1, example="I need a family SUV with lots of space")
 
 class Recommendation(BaseModel):
     model: str

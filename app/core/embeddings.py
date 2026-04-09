@@ -4,6 +4,9 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 import logging
+import warnings
+
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -60,7 +63,7 @@ class AutomotiveSearchEngine:
             logger.error("No documents to index.")
             return
             
-        embeddings = self.model.encode(self.documents, convert_to_numpy=True)
+        embeddings = self.model.encode(self.documents, convert_to_numpy=True, show_progress_bar=False)
         # Normalize for cosine similarity
         faiss.normalize_L2(embeddings)
         
@@ -74,7 +77,7 @@ class AutomotiveSearchEngine:
         if self.index is None:
             return []
             
-        query_embedding = self.model.encode([query], convert_to_numpy=True)
+        query_embedding = self.model.encode([query], convert_to_numpy=True, show_progress_bar=False)
         faiss.normalize_L2(query_embedding)
         
         distances, indices = self.index.search(query_embedding, top_k)
