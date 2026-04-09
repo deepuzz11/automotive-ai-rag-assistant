@@ -111,6 +111,8 @@ class VehicleRecommender:
         return scored_vehicles[:2]
 
 # Initialize Recommender
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "vehicles.json")
+# Path to data in root directory
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DATA_PATH = os.path.join(ROOT_DIR, "data", "vehicles.json")
 recommender = VehicleRecommender(DATA_PATH)
 

@@ -27,7 +27,9 @@ async def lifespan(app: FastAPI):
     """
     logger.info("Initializing Ford Vehicle Intelligence System...")
     try:
-        data_dir = os.path.join(os.path.dirname(__file__), "data")
+        # Data is located in the root 'data' folder
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(base_dir, "data")
         engine.load_data(data_dir)
         logger.info("System initialized successfully.")
     except Exception as e:
