@@ -10,6 +10,7 @@ An advanced, RAG-based (Retrieval-Augmented Generation) assistant designed for v
 - **Semantic Search**: Context-aware retrieval using FAISS and Sentence-Transformers.
 - **RAG Architecture**: Grounded LLM responses using Groq Llama 3.1 (8B).
 - **Smart Recommender**: Attribute-based vehicle matching with explainable reasoning.
+- **Dynamic Dashboard**: High-end React/Vite Single Page Application (SPA) with a corporate aesthetic.
 - **Safety First**: Strict grounding to manual data to prevent harmful hallucinations.
 - **Containerized**: Easy deployment with Docker.
 
@@ -21,6 +22,7 @@ An advanced, RAG-based (Retrieval-Augmented Generation) assistant designed for v
 | :--- | :--- |
 | **Language** | Python 3.10+ |
 | **API Framework** | FastAPI |
+| **Frontend** | React, Vite, Tailwind/Vanilla CSS, Framer Motion |
 | **Vector Database** | FAISS (Facebook AI Similarity Search) |
 | **Embeddings** | Sentence-Transformers (`all-MiniLM-L6-v2`) |
 | **LLM** | Groq Llama 3.1 (8B) |
@@ -67,11 +69,21 @@ pip install torch==2.2.0 transformers==4.41.0
 # Verify installations
 python -c "import torch, transformers; print('torch', torch.__version__); print('transformers', transformers.__version__)"
 
-# Run the API
+# Run the backend API
 uvicorn app.main:app --reload
 ```
 
 Visit <http://localhost:8000/docs> to explore the API.
+
+### 4. Running the Frontend Dashboard
+Open a new terminal and run:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Visit <http://localhost:5173> to interact with the Ford Intelligence System.
 
 ---
 
@@ -181,6 +193,7 @@ Recommendation is based on rule-based filtering using attributes like vehicle ty
 │   ├── data/           # Synthetic Datasets (JSON)
 │   ├── main.py         # FastAPI Entry Point
 │   └── models.py       # Pydantic Schemas
+├── frontend/           # React/Vite Dashboard SPA
 ├── tests/              # Verification Scripts
 ├── Dockerfile          # Container Configuration
 └── requirements.txt    # Project Dependencies
