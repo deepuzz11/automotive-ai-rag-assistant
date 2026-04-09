@@ -7,11 +7,11 @@ A specialized RAG-based (Retrieval-Augmented Generation) assistant designed to h
 
 ## Key Features
 
-*   **Semantic Search**: High-performance retrieval using **FAISS** and **Sentence-Transformers**.
-*   **RAG Architecture**: Grounded, hallucination-resistant answers powered by **Groq (Llama 3.1 8B)**.
-*   **Logic-Based Recommender**: Intelligent vehicle matching based on usage intent and structured attributes.
-*   **Safety Critical**: Strict grounding to official manual data to ensure technical accuracy and user safety.
-*   **Containerized**: Fully Dockerized for seamless deployment.
+-   **Semantic Search**: High-performance retrieval using **FAISS** and **Sentence-Transformers**.
+-   **RAG Architecture**: Grounded, hallucination-resistant answers powered by **Groq (Llama 3.1 8B)**.
+-   **Logic-Based Recommender**: Intelligent vehicle matching based on usage intent and structured attributes.
+-   **Safety Critical**: Strict grounding to official manual data to ensure technical accuracy and user safety.
+-   **Containerized**: Fully Dockerized for seamless deployment.
 
 ---
 
@@ -106,13 +106,18 @@ Instead of keyword matching, we use **Dense Vector Embeddings** to understand th
 **What is RAG?**
 RAG is a technique that provides an LLM with external, verified context (the "Retrieved" data) to "Augment" its knowledge before "Generating" a response.
 
+**Chunking Strategy:**
+Manual text is split into smaller chunks (100–300 words) for better semantic retrieval and to ensure context relevance.
+
 **Why Grounding is Important?**
 In the automotive domain, incorrect advice (e.g., wrong oil type or misunderstood brake warning) can lead to vehicle damage or safety risks. **Grounding** ensures the LLM acts only as a reasoning layer over official Ford data, rather than relying on generalized training data.
 
 **Hallucination Mitigation:**
-*   **Context Injection**: The prompt includes retrieved snippets from manuals and specs.
-*   **Strict Constraints**: The LLM is explicitly forbidden from using prior knowledge to fill gaps. If the answer isn't in the context, it must say "I don't know."
-*   **Low Temperature**: Set to `0.1` to ensure deterministic and focused output.
+-   **Top-K Retrieval**: We explicitly retrieve the **Top-3 (k=3)** most relevant document chunks to ensure the LLM has sufficient but focused context.
+-   **Context Injection**: The prompt includes retrieved snippets from manuals and specs.
+-   **Strict Constraints**: The LLM is explicitly forbidden from using prior knowledge to fill gaps. If the answer isn't in the context, it must say "I don't know."
+-   **Fail-Safe Design**: The system is designed to fail safely — returning no results or fallback messages instead of producing incorrect or hallucinated outputs.
+-   **Low Temperature**: Set to `0.1` to ensure deterministic and focused output.
 
 ### 3. Recommendation Logic
 The recommendation module uses **Attribute Matching**. It maps user intents (e.g., "towing", "family") to specific vehicle capabilities like `seats` and `towing_capacity`, providing top-2 suggestions with explainable reasoning.

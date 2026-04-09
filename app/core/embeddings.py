@@ -96,14 +96,29 @@ class AutomotiveSearchEngine:
         logger.info("FAISS index built successfully using Cosine Similarity.")
 
     def search(self, query: str, top_k: int = 3):
-        """Searches the index and returns relevant documents and metadata."""
+        """
+        Searches the FAISS index for the most semantically relevant documents.
+        
+        Args:
+            query: The user's search string.
+            top_k: Number of results to retrieve (default is 3 for optimal context/relevance balance).
+            
+        Returns:
+            List of dictionaries containing content, metadata, and similarity score.
+        """
         if self.index is None:
-            logger.error("Index not initialized.")
+            logger.error("Index not initialized. Please load data first.")
             return []
             
+        # 1. Encode query
         query_embedding = self.model.encode([query], convert_to_numpy=True, show_progress_bar=False)
+        
+        # 2. IMPORTANT: Explicit L2 Normalization
+        # We normalize the query vector to unit length so that the Inner Product
+        # search (IndexFlatIP) correctly calculates the Cosine Similarity.
         faiss.normalize_L2(query_embedding)
         
+        # 3. Perform search
         distances, indices = self.index.search(query_embedding, top_k)
         
         results = []

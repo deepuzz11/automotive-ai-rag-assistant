@@ -33,34 +33,33 @@ class AutomotiveRAG:
     def generate_answer(self, question: str, context_documents: list) -> str:
         """
         Generates a grounded answer based on the retrieved context.
-        
-        Args:
-            question: The user's query.
-            context_documents: List of relevant document chunks from the search engine.
-            
-        Returns:
-            A string containing the LLM-generated answer.
         """
         if not self.client:
             return "Error: API Key not configured. Please set GROQ_API_KEY in the .env file."
 
-        # Context Injection Logic:
-        # We concatenate the content of retrieved documents into a single context block.
-        context_text = "\n---\n".join([doc['content'] for doc in context_documents])
+        # Context Injection & Length Control Logic:
+        # We concatenate the content of retrieved documents and truncate to avoid LLM overload.
+        # Max context length set to ~6000 characters to ensure prompt fits within token limits.
+        MAX_CONTEXT_CHARS = 6000
+        full_context = "\n---\n".join([doc['content'] for doc in context_documents])
         
+        if len(full_context) > MAX_CONTEXT_CHARS:
+            logger.warning(f"Context length ({len(full_context)}) exceeds limit. Truncating.")
+            full_context = full_context[:MAX_CONTEXT_CHARS] + "... [Context Truncated]"
+
         # Professional Prompt Template
         prompt = f"""
 You are a professional Ford Automotive Assistant. Your goal is to provide accurate, grounded, and helpful information to vehicle owners.
 
 CONTEXT INFORMATION:
-{context_text}
+{full_context}
 
 USER QUESTION:
 {question}
 
 STRICT INSTRUCTIONS:
 1. Use ONLY the provided context to answer the question.
-2. If the answer is not in the context, explicitly state that you don't have that specific information in your records and suggest contacting a Ford dealership for the most accurate advice.
+2. If the answer is not in the context, explicitly state that you don't have that specific information in your records and suggest contacting a Ford dealership.
 3. Do NOT hallucinate features, specs, or service intervals not mentioned in the context.
 4. Keep the tone professional, concise, and safety-focused.
 5. If the question is about a safety warning or dashboard light, prioritize clear, actionable instructions.
@@ -82,7 +81,7 @@ ANSWER:
             return chat_completion.choices[0].message.content
         except Exception as e:
             logger.error(f"Groq API Error: {str(e)}")
-            return "I apologize, but I encountered a technical error while processing your request. Please try again later."
+            return "I apologize, but I encountered a technical error while connecting to the AI reasoning engine. Please try again later or contact support if the issue persists."
 
 # Singleton instance
 rag_assistant = AutomotiveRAG()

@@ -63,9 +63,9 @@ app = FastAPI(
     Mini AI-Powered Automotive Knowledge Assistant for Ford Vehicles.
     
     Features:
-    * **Semantic Search**: Find relevant manual content using FAISS.
-    * **RAG Assistant**: Grounded AI answers to vehicle queries.
-    * **Vehicle Recommendation**: Logic-based matching for family and utility needs.
+    - **Semantic Search**: Find relevant manual content using FAISS.
+    - **RAG Assistant**: Grounded AI answers to vehicle queries.
+    - **Vehicle Recommendation**: Logic-based matching for family and utility needs.
     """,
     version="1.1.0",
     lifespan=lifespan,
