@@ -13,7 +13,8 @@ def test_root(client):
     """Test the root endpoint."""
     response = client.get("/")
     assert response.status_code == 200
-    assert "message" in response.json()
+    assert "status" in response.json()
+    assert response.json()["status"] == "online"
 
 def test_search_valid(client):
     """Test standard semantic search query."""

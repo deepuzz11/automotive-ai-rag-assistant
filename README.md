@@ -1,18 +1,17 @@
 # Ford Vehicle Intelligence System
-### AI-Powered Automotive Knowledge Assistant
+## AI-Powered Automotive Knowledge Assistant
 
-An advanced, RAG-based (Retrieval-Augmented Generation) assistant designed for vehicle-related queries. Built as part of a technical assessment for the AI Engineer role, this system provides grounded, safety-focused answers about Ford vehicles.
+A specialized RAG-based (Retrieval-Augmented Generation) assistant designed to handle Ford vehicle-related queries. This project implements semantic search, grounded AI responses, and logic-based vehicle recommendations .
 
 ---
 
 ## Key Features
 
-- **Semantic Search**: Context-aware retrieval using FAISS and Sentence-Transformers.
-- **RAG Architecture**: Grounded LLM responses using Groq Llama 3.1 (8B).
-- **Smart Recommender**: Attribute-based vehicle matching with explainable reasoning.
-- **Dynamic Dashboard**: High-end React/Vite Single Page Application (SPA) with a corporate aesthetic.
-- **Safety First**: Strict grounding to manual data to prevent harmful hallucinations.
-- **Containerized**: Easy deployment with Docker.
+*   **Semantic Search**: High-performance retrieval using **FAISS** and **Sentence-Transformers**.
+*   **RAG Architecture**: Grounded, hallucination-resistant answers powered by **Groq (Llama 3.1 8B)**.
+*   **Logic-Based Recommender**: Intelligent vehicle matching based on usage intent and structured attributes.
+*   **Safety Critical**: Strict grounding to official manual data to ensure technical accuracy and user safety.
+*   **Containerized**: Fully Dockerized for seamless deployment.
 
 ---
 
@@ -20,76 +19,107 @@ An advanced, RAG-based (Retrieval-Augmented Generation) assistant designed for v
 
 | Component | Technology |
 | :--- | :--- |
-| **Language** | Python 3.10+ |
-| **API Framework** | FastAPI |
-| **Frontend** | React, Vite, Tailwind/Vanilla CSS, Framer Motion |
-| **Vector Database** | FAISS (Facebook AI Similarity Search) |
+| **Backend** | Python 3.10+, FastAPI |
+| **Vector DB** | FAISS (IndexFlatIP) |
 | **Embeddings** | Sentence-Transformers (`all-MiniLM-L6-v2`) |
 | **LLM** | Groq Llama 3.1 (8B) |
-| **DevOps** | Docker |
+| **Deployment** | Docker, Uvicorn |
 
 ---
 
-## Getting Started
+## 📦 Project Structure
 
-### 1. Installation
+```text
+├── app/
+│   ├── core/           # Business Logic
+│   │   ├── embeddings.py  # FAISS & Semantic Search Engine
+│   │   ├── rag.py         # RAG & LLM Integration
+│   │   └── recommender.py # Vehicle Recommendation Logic
+│   ├── data/           # Synthetic Datasets (JSON)
+│   ├── main.py         # FastAPI Entry Point & Routes
+│   └── models.py       # Pydantic Schemas (Input/Output)
+├── tests/              # API Testing Suite
+├── Dockerfile          # Container Configuration
+└── requirements.txt    # Project Dependencies
+```
+
+---
+
+## ⚙️ Setup & Installation
+
+### 1. Prerequisites
+*   Python 3.10 or higher
+*   [Groq API Key](https://console.groq.com/)
+
+### 2. Local Setup
 ```bash
 # Clone the repository
 git clone <repo-url>
 cd automotive-ai-rag-assistant
 
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configuration
+### 3. Environment Configuration
 Create a `.env` file in the root directory:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### 3. Running the API
+### 4. Run the API
 ```bash
-# Start the server
 uvicorn app.main:app --reload
 ```
-Open [http://localhost:8000/docs](http://localhost:8000/docs) to explore the API.
-## Setup & Run
-
-```bash
-# Upgrade pip
-pip install --upgrade pip
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Install compatible PyTorch & Transformers
-pip install torch==2.2.0 transformers==4.41.0
-
-# Verify installations
-python -c "import torch, transformers; print('torch', torch.__version__); print('transformers', transformers.__version__)"
-
-# Run the backend API
-uvicorn app.main:app --reload
-```
-
-Visit <http://localhost:8000/docs> to explore the API.
-
-### 4. Running the Frontend Dashboard
-Open a new terminal and run:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Visit <http://localhost:5173> to interact with the Ford Intelligence System.
+The API will be available at `http://localhost:8000`. Explore the interactive documentation at `http://localhost:8000/docs`.
 
 ---
 
-## System Architecture
+## 🐳 Docker Deployment
 
-The system follows a modular pipeline designed for accuracy and safety:
+To run the application in a containerized environment:
+
+```bash
+# Build the image
+docker build -t ford-ai-assistant .
+
+# Run the container
+docker run -p 8000:8000 --env-file .env ford-ai-assistant
+```
+
+---
+
+## 🏗️ Architecture Explanation
+
+The system is built on a modular pipeline designed for precision and safety.
+
+### 1. Semantic Search & Embeddings
+Instead of keyword matching, we use **Dense Vector Embeddings** to understand the intent behind a query.
+*   **Embeddings**: We use `all-MiniLM-L6-v2` to map text to a 384-dimensional space.
+*   **Similarity Metric**: **Cosine Similarity**. We use `faiss.normalize_L2` and `IndexFlatIP`. This measures the cosine of the angle between vectors, ensuring that semantically similar concepts (e.g., "how to fix" and "repair instructions") are ranked higher.
+
+### 2. Retrieval-Augmented Generation (RAG)
+**What is RAG?**
+RAG is a technique that provides an LLM with external, verified context (the "Retrieved" data) to "Augment" its knowledge before "Generating" a response.
+
+**Why Grounding is Important?**
+In the automotive domain, incorrect advice (e.g., wrong oil type or misunderstood brake warning) can lead to vehicle damage or safety risks. **Grounding** ensures the LLM acts only as a reasoning layer over official Ford data, rather than relying on generalized training data.
+
+**Hallucination Mitigation:**
+*   **Context Injection**: The prompt includes retrieved snippets from manuals and specs.
+*   **Strict Constraints**: The LLM is explicitly forbidden from using prior knowledge to fill gaps. If the answer isn't in the context, it must say "I don't know."
+*   **Low Temperature**: Set to `0.1` to ensure deterministic and focused output.
+
+### 3. Recommendation Logic
+The recommendation module uses **Attribute Matching**. It maps user intents (e.g., "towing", "family") to specific vehicle capabilities like `seats` and `towing_capacity`, providing top-2 suggestions with explainable reasoning.
+
+---
+
+## 📊 Architecture Diagram
 
 ```mermaid
 graph TD
@@ -100,10 +130,10 @@ graph TD
     Intent --> Ask[/ask - RAG Assistant/]
     Intent --> Rec[/recommend - Vehicle Matching/]
     
-    subgraph "Core Engines"
+    subgraph "Core Logic"
         Search --> FAISS[(FAISS Vector DB)]
         Ask --> Groq[Groq Llama 3.1 LLM]
-        Rec --> Logic[Structured Filtering]
+        Rec --> Filtering[Structured Attribute Matching]
     end
     
     FAISS -.->|Context Injection| Groq
@@ -111,90 +141,26 @@ graph TD
 
 ---
 
-## Core AI Concepts
-
-### 1. Semantic Search & FAISS
-Instead of simple keyword matching, we use **Embeddings** to represent the "meaning" of text.
-- **Model**: `all-MiniLM-L6-v2` (384-dimensional space).
-- **Similarity Metric**: **Cosine Similarity**. We normalize our vectors to Unit Length and use Inner Product (`IndexFlatIP`) to find the nearest neighbors in the semantic space.
-- **Chunking Strategy**: We split manual text into smaller chunks (100–300 words) to ensure semantic relevance and improve retrieval accuracy.
-
-### 2. Retrieval-Augmented Generation (RAG)
-**What is RAG?**
-Retrieval-Augmented Generation (RAG) is a technique that combines information retrieval with a text-generating LLM. Instead of relying solely on the LLM's internal weights (which might contain outdated or mixed knowledge), RAG fetches specific, relevant documents from a trusted knowledge base and feeds them into the LLM as context to generate an answer.
-
-The system:
-1.  **Retrieves** the top-3 most relevant chunks using cosine similarity from Ford manuals.
-2.  **Augments** the LLM prompt via **Context Injection**, building a structured prompt that contains both the user query and the retrieved text.
-3.  **Generates** an answer that is strictly anchored to the provided data.
-
-**Prompt Template**
-The core instructions passed to the LLM are:
-```text
-You are a professional Ford Automotive Assistant. Your goal is to provide accurate, grounded, and helpful information to vehicle owners.
-CONTEXT INFORMATION: {context_text}
-USER QUESTION: {question}
-STRICT INSTRUCTIONS:
-1. Use ONLY the provided context to answer the question.
-2. If the answer is not in the context, state that you don't have that specific information and suggest contacting a Ford dealership.
-3. Do NOT hallucinate features, specs, or service intervals not mentioned in the context.
-4. Keep the tone professional and safety-focused.
-5. If the question is about a safety warning, prioritize clear instructions.
-```
-
-### 3. Hallucination Mitigation & Grounding
-**Why grounding is important in the automotive domain?**
-Vehicles are heavy machinery. Incorrect advice about tire pressure, towing capacity, fluid types, or safety warnings can lead to severe mechanical damage, warranty voidance, or physical harm. Grounding ensures the LLM acts only as a reasoning engine over verified, official service data.
-
-**What causes hallucination in vehicle advice?**
-Base LLMs are trained on billions of parameters across the entire internet. When asked about a specific vehicle (e.g., "2023 Ford Ranger oil capacity"), the LLM might hallucinate by:
-- Confusing specs across different trims, engine types, or model years (e.g., suggesting V8 specs for an EcoBoost V6).
-- Extrapolating capabilities from competitors (e.g., blending Ford and Chevy statistics).
-- Making logical but technically incorrect guesses when it doesn't actually "know" the fact.
-
-**Mitigation Strategy:**
-- **Strict Grounding Prompt**: Explicitly ordering the LLM to output "I don't know" if the context lacks the answer.
-- **Top-K Retrieval**: Only passing highly relevant context to prevent the LLM from getting distracted by unrelated manuals.
-
-### 4. Recommendation Logic
-Recommendation is based on rule-based filtering using attributes like vehicle type, seating capacity, and usage intent.
-
-### 5. Production-Ready Safeguards
-- **Input Sanitization**: Input queries are validated and sanitized to handle empty, whitespace, and malformed inputs gracefully using Pydantic validation and regex filtering.
-- **Fail-Safe Design**: The system is designed to fail safely — returning no results or a fallback response instead of producing incorrect or hallucinated outputs.
-- **Future Improvement (Rate Limiting)**: Add rate limiting to prevent abuse and ensure API stability.
-
----
-
-## API Reference
+## 🧪 API Endpoints
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
 | `/search` | `POST` | Semantic search across manuals and specifications. |
-| `/ask` | `POST` | RAG-based AI assistant for grounded answers. |
-| `/recommend` | `POST` | Logical vehicle recommendations based on user needs. |
+| `/ask` | `POST` | AI-powered grounded responses using RAG. |
+| `/recommend` | `POST` | Intelligent vehicle suggestions based on user needs. |
 
-### Sample API Request
-
-**`POST /ask`**
+**Sample Request (`/ask`):**
 ```json
 {
-  "question": "What does engine warning light mean?"
+  "question": "Service interval for Ford Ranger 2023?"
 }
 ```
 
 ---
 
-## Project Structure
+## 💡 Design Decisions
 
-```text
-├── app/
-│   ├── core/           # Logic (Embeddings, RAG, Recommender)
-│   ├── data/           # Synthetic Datasets (JSON)
-│   ├── main.py         # FastAPI Entry Point
-│   └── models.py       # Pydantic Schemas
-├── frontend/           # React/Vite Dashboard SPA
-├── tests/              # Verification Scripts
-├── Dockerfile          # Container Configuration
-└── requirements.txt    # Project Dependencies
-```
+1.  **FAISS CPU over GPU**: Chosen for lightweight deployment and because the vector count (<1000) doesn't require GPU acceleration.
+2.  **Llama 3.1 (8B) via Groq**: Provides exceptionally low latency (sub-second) while maintaining high reasoning quality for technical extraction.
+3.  **JSON over SQLite**: Given the static nature of the assessment dataset, JSON files offer maximum transparency and simplicity for reviewers.
+4.  **Pydantic V2**: Utilized for robust input validation and auto-generated OpenAPI documentation.

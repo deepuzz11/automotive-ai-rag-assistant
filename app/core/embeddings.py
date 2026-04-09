@@ -1,25 +1,39 @@
 import json
 import os
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
 import logging
 import warnings
+import faiss
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
+# Suppress unnecessary warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class AutomotiveSearchEngine:
+    """
+    Core search engine for Ford vehicle knowledge.
+    Uses Semantic Search to find relevant manual text blocks and specifications.
+    
+    Why Semantic Search?
+    Unlike keyword search, semantic search understands the context and intent
+    behind a query by projecting text into a high-dimensional vector space.
+    """
+    
     def __init__(self, model_name='all-MiniLM-L6-v2'):
+        # Explanation of Embeddings:
+        # We use 'all-MiniLM-L6-v2', a Sentence-Transformer model that maps 
+        # sentences to a 384-dimensional dense vector space. 
+        # It is optimized for semantic search and efficient enough for real-time applications.
         self.model = SentenceTransformer(model_name)
         self.index = None
         self.documents = []
         self.metadata = []
         
-    def load_data(self, data_dir):
-        """Loads and prepares documents from JSON files."""
+    def load_data(self, data_dir: str):
+        """Loads and prepares documents from synthetic JSON files."""
         files = ['vehicles.json', 'maintenance.json', 'manuals.json']
         
         for file in files:
@@ -28,7 +42,7 @@ class AutomotiveSearchEngine:
                 logger.warning(f"File {path} not found.")
                 continue
                 
-            with open(path, 'r') as f:
+            with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 
             if file == 'vehicles.json':
@@ -58,23 +72,33 @@ class AutomotiveSearchEngine:
         self._build_index()
 
     def _build_index(self):
-        """Builds FAISS index from documents."""
+        """
+        Builds FAISS index from document embeddings.
+        
+        Similarity Metric: Cosine Similarity
+        FAISS IndexFlatIP (Inner Product) is used. When vectors are L2-normalized, 
+        their dot product is equivalent to their Cosine Similarity.
+        This allows us to find the most semantically relevant documents 
+        based on the angle between vectors rather than Euclidean distance.
+        """
         if not self.documents:
             logger.error("No documents to index.")
             return
             
         embeddings = self.model.encode(self.documents, convert_to_numpy=True, show_progress_bar=False)
-        # Normalize for cosine similarity
+        
+        # L2-normalization for Cosine Similarity
         faiss.normalize_L2(embeddings)
         
         dimension = embeddings.shape[1]
-        self.index = faiss.IndexFlatIP(dimension)  # Inner Product on normalized vectors = Cosine Similarity
+        self.index = faiss.IndexFlatIP(dimension)
         self.index.add(embeddings)
-        logger.info("FAISS index built successfully.")
+        logger.info("FAISS index built successfully using Cosine Similarity.")
 
-    def search(self, query, top_k=3):
+    def search(self, query: str, top_k: int = 3):
         """Searches the index and returns relevant documents and metadata."""
         if self.index is None:
+            logger.error("Index not initialized.")
             return []
             
         query_embedding = self.model.encode([query], convert_to_numpy=True, show_progress_bar=False)
@@ -94,3 +118,4 @@ class AutomotiveSearchEngine:
 
 # Singleton instance for the app
 engine = AutomotiveSearchEngine()
+

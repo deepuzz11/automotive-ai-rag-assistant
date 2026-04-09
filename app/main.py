@@ -1,8 +1,8 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
 import os
 import logging
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, HTTPException
+
 from .core.embeddings import engine
 from .core.rag import rag_assistant
 from .core.recommender import recommender
@@ -13,41 +13,61 @@ from .models import (
 )
 
 # Setup logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Load data and build index
-    logger.info("Starting up Automotive AI Assistant...")
-    data_dir = os.path.join(os.path.dirname(__file__), "data")
-    engine.load_data(data_dir)
+    """
+    Lifespan context manager for FastAPI.
+    Handles startup (data loading, index building) and shutdown tasks.
+    """
+    logger.info("Initializing Ford Vehicle Intelligence System...")
+    try:
+        data_dir = os.path.join(os.path.dirname(__file__), "data")
+        engine.load_data(data_dir)
+        logger.info("System initialized successfully.")
+    except Exception as e:
+        logger.error(f"Initialization failed: {str(e)}")
+    
     yield
-    # Shutdown: Clean up if needed
-    logger.info("Shutting down Automotive AI Assistant...")
+    
+    logger.info("Shutting down Ford Vehicle Intelligence System...")
 
 app = FastAPI(
     title="Ford Vehicle Intelligence System",
-    description="Mini AI-Powered Automotive Knowledge Assistant for Ford Vehicles",
-    version="1.0.0",
+    description="""
+    Mini AI-Powered Automotive Knowledge Assistant for Ford Vehicles.
+    
+    Features:
+    * **Semantic Search**: Find relevant manual content using FAISS.
+    * **RAG Assistant**: Grounded AI answers to vehicle queries.
+    * **Vehicle Recommendation**: Logic-based matching for family and utility needs.
+    """,
+    version="1.1.0",
     lifespan=lifespan
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/")
+@app.get("/", tags=["General"])
 async def root():
-    return {"message": "Welcome to the Ford Vehicle Intelligence System API"}
+    """Health check endpoint."""
+    return {
+        "status": "online",
+        "system": "Ford Vehicle Intelligence System API",
+        "version": "1.1.0"
+    }
 
-@app.post("/search", response_model=list[SearchResult])
+@app.post("/search", response_model=list[SearchResult], tags=["Search"])
 async def search(request: SearchRequest):
-    """Semantic Search for Vehicle Knowledge."""
+    """
+    **Semantic Search for Vehicle Knowledge.**
+    
+    Uses Sentence-Transformers and FAISS to find the most relevant 
+    manual text blocks or specifications based on semantic meaning.
+    """
     try:
         results = engine.search(request.query)
         return [
@@ -62,14 +82,20 @@ async def search(request: SearchRequest):
         logger.error(f"Search error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal search engine error")
 
-@app.post("/ask", response_model=AskResponse)
+@app.post("/ask", response_model=AskResponse, tags=["RAG"])
 async def ask(request: AskRequest):
-    """RAG-Based Automotive Assistant."""
+    """
+    **RAG-Based Automotive Assistant.**
+    
+    Retrieves relevant context from Ford manuals and uses an LLM (Groq Llama 3.1)
+    to generate a grounded, professional answer. 
+    Prevents hallucinations by strictly anchoring to retrieved data.
+    """
     try:
-        # 1. Retrieve relevant context
+        # 1. Retrieve relevant context (Top-3)
         context_docs = engine.search(request.question, top_k=3)
         
-        # 2. Generate grounded answer
+        # 2. Generate grounded answer via LLM
         answer = rag_assistant.generate_answer(request.question, context_docs)
         
         return AskResponse(
@@ -87,9 +113,14 @@ async def ask(request: AskRequest):
         logger.error(f"Ask error: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal RAG engine error")
 
-@app.post("/recommend", response_model=RecommendResponse)
+@app.post("/recommend", response_model=RecommendResponse, tags=["Recommendation"])
 async def recommend(request: RecommendRequest):
-    """Basic Vehicle Recommendation Logic."""
+    """
+    **Logic-Based Vehicle Recommendation.**
+    
+    Matches user requirements (e.g., 'family SUV', 'towing truck') against 
+    vehicle attributes using structured logic and attribute filtering.
+    """
     try:
         results = recommender.recommend(request.needs)
         recommendations = [
@@ -106,4 +137,6 @@ async def recommend(request: RecommendRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Use port 8000 for standard API access
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+
