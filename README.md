@@ -30,6 +30,31 @@ To ensure safety and accuracy, the system is designed to only use retrieved data
 ## Architecture Diagram
 <img width="1169" height="827" alt="1 drawio" src="https://github.com/user-attachments/assets/9c5b0b37-028e-4f3b-804a-fe1516959f89" />
 
+### Architectural Breakdown
+
+The system is built on a modular four-tier architecture designed for high performance, technical accuracy, and safety-critical grounding.
+
+#### 1. User Interface Layer
+- **Modern Web UI**: A premium industrial-themed frontend designed with Ford's aesthetic in mind. It provides separate interfaces for Chat, Semantic Search, and Vehicle Recommendations.
+- **API Client**: Handles asynchronous event-driven communication with the backend to ensure a responsive, non-blocking user experience.
+
+#### 2. Application Layer (FastAPI Gateway)
+- **FastAPI / Uvicorn**: A high-performance, asynchronous web framework that serves as the entry point for all requests.
+- **Service Routing**: Validates incoming requests and routes them to specific handlers (`/ask`, `/search`, `/recommend`) based on the user's intent.
+
+#### 3. RAG Pipeline (Core Intelligence Layer)
+- **Intent Classifier**: Routes queries to the appropriate engine (QA vs. Search vs. Recommendation) to optimize token usage and reduce latency.
+- **Embedding Engine**: Utilizes the `all-MiniLM-L6-v2` model to convert text into 384-dimensional dense vectors for semantic comparison.
+- **Retriever**: Executes Top-K semantic search to extract the most relevant documentation chunks from the knowledge base.
+- **Context Builder**: Augments the user's query with the retrieved technical data, creating a grounded prompt that prevents the LLM from relying on general "training knowledge."
+
+#### 4. Knowledge & Data Layer
+- **FAISS Index**: A high-performance vector data store that enables sub-millisecond similarity searches (using Cosine Similarity).
+- **LLM (Llama 3 via Groq)**: Processes the grounded prompt using Groq's high-speed LPU infrastructure for near-instant responses.
+- **Hallucination Control**: A strict safety-gating mechanism. If the retrieved context doesn't contain the answer, the system is instructed to refuse the response to ensure technical integrity.
+
+---
+
 
 ## Project Structure
 ```text

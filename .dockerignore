@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak
+env.ext
+.git/
+.gitignore
+tests/
+Dockerfile
+docker-compose.yml
+.dockerignore
+.vscode/
+.idea/
+*.drawio
+*.drawio.png
+Architecture Diagram.png
+INTERVIEW_PREP_GUIDE.txt
+sample_queries.txt
