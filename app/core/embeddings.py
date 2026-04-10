@@ -33,43 +33,38 @@ class AutomotiveSearchEngine:
         self.metadata = []
         
     def load_data(self, data_dir: str):
-        """Loads and prepares documents from synthetic JSON files."""
-        files = ['vehicles.json', 'maintenance.json', 'manuals.json']
+        """Loads and prepares documents from the SQLite database."""
+        from .database import db_handler
         
-        for file in files:
-            path = os.path.join(data_dir, file)
-            if not os.path.exists(path):
-                logger.warning(f"File {path} not found.")
-                continue
-                
-            with open(path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                
-            if file == 'vehicles.json':
-                for item in data:
-                    text = f"Model: {item['model']}. Type: {item['type']}. Engine: {item['engine']}. Specs: {item['description']} Features: {', '.join(item['safety_features'])}"
-                    self.documents.append(text)
-                    self.metadata.append({"source": file, "id": item['model']})
+        logger.info("Fetching data from SQLite database...")
+        
+        # 1. Load Vehicles
+        vehicles = db_handler.fetch_all_vehicles()
+        for item in vehicles:
+            text = f"Model: {item['model']}. Type: {item['type']}. Engine: {item['engine']}. Specs: {item['description']} Features: {', '.join(item['safety_features'])}"
+            self.documents.append(text)
+            self.metadata.append({"source": "database:vehicles", "id": item['model']})
             
-            elif file == 'maintenance.json':
-                for item in data:
-                    models_str = ", ".join(item.get('applicable_models', []))
-                    if 'service' in item:
-                        text = f"Service: {item['service']}. Frequency: {item['frequency']}. Details: {item['details']}. Applicable Models: {models_str}"
-                        self.documents.append(text)
-                        self.metadata.append({"source": file, "id": item['service']})
-                    elif 'warranty' in item:
-                        text = f"Warranty: {item['warranty']}. Details: {item['details']}. Applicable Models: {models_str}"
-                        self.documents.append(text)
-                        self.metadata.append({"source": file, "id": item['warranty']})
+        # 2. Load Maintenance & Warranty
+        maintenance = db_handler.fetch_all_maintenance()
+        for item in maintenance:
+            models_str = ", ".join(item.get('applicable_models', []))
+            if item['type'] == 'service':
+                text = f"Service: {item['title']}. Frequency: {item['frequency']}. Details: {item['details']}. Applicable Models: {models_str}"
+            else:
+                text = f"Warranty: {item['title']}. Details: {item['details']}. Applicable Models: {models_str}"
             
-            elif file == 'manuals.json':
-                for item in data:
-                    text = f"Manual Topic: {item['topic']}. Content: {item['content']} Category: {item['category']}"
-                    self.documents.append(text)
-                    self.metadata.append({"source": file, "id": item['topic']})
+            self.documents.append(text)
+            self.metadata.append({"source": "database:maintenance", "id": item['title']})
+            
+        # 3. Load Manuals
+        manuals = db_handler.fetch_all_manuals()
+        for item in manuals:
+            text = f"Manual Topic: {item['topic']}. Content: {item['content']} Category: {item['category']}"
+            self.documents.append(text)
+            self.metadata.append({"source": "database:manuals", "id": item['topic']})
                     
-        logger.info(f"Loaded {len(self.documents)} documents.")
+        logger.info(f"Loaded {len(self.documents)} documents from database.")
         self._build_index()
 
     def _build_index(self):

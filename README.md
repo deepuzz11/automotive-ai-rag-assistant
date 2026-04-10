@@ -49,6 +49,7 @@ The system is built on a modular four-tier architecture designed for high perfor
 - **Context Builder**: Augments the user's query with the retrieved technical data, creating a grounded prompt that prevents the LLM from relying on general "training knowledge."
 
 #### 4. Knowledge & Data Layer
+- **SQLite Database**: Serves as the primary persistent storage for structured vehicle data, maintenance records, and technical manuals.
 - **FAISS Index**: A high-performance vector data store that enables sub-millisecond similarity searches (using Cosine Similarity).
 - **LLM (Llama 3 via Groq)**: Processes the grounded prompt using Groq's high-speed LPU infrastructure for near-instant responses.
 - **Hallucination Control**: A strict safety-gating mechanism. If the retrieved context doesn't contain the answer, the system is instructed to refuse the response to ensure technical integrity.
@@ -60,14 +61,19 @@ The system is built on a modular four-tier architecture designed for high perfor
 ```text
 ├── app/
 │   ├── core/           
-│   │   ├── embeddings.py  
-│   │   ├── intent.py      
-│   │   ├── rag.py         
-│   │   └── recommender.py 
+│   │   ├── database.py    # SQLite database handler
+│   │   ├── embeddings.py  # Vector search engine
+│   │   ├── intent.py      # Query classification
+│   │   ├── rag.py         # LLM response generation
+│   │   └── recommender.py # Vehicle matching logic
 │   ├── main.py         
 │   └── models.py       
 ├── frontend/           
 ├── data/               
+│   ├── automotive.db      # Persistent SQLite database
+│   └── ... (.json files)
+├── scripts/
+│   └── init_db.py         # Database migration script
 ├── Dockerfile          
 └── requirements.txt    
 ```
@@ -87,6 +93,9 @@ pip install -r requirements.txt
 
 # Configure environment
 echo "GROQ_API_KEY=your_key_here" > .env
+
+# Initialize database (Required)
+python scripts/init_db.py
 
 # Start server
 uvicorn app.main:app --reload

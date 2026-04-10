@@ -40,6 +40,6 @@ LABEL maintainer="AI Engineer Candidate"
 LABEL project="Ford Vehicle Intelligence System"
 LABEL version="1.2.0"
 
-# Run application using uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run application (Init DB then Start Server)
+CMD ["sh", "-c", "python scripts/init_db.py && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
 

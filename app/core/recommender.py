@@ -10,20 +10,11 @@ class VehicleRecommender:
     """
     Logic-based Vehicle Recommendation Engine.
     Matches user needs with vehicle attributes using keyword mapping and scoring.
-    
-    This tests:
-    - Structured thinking
-    - Attribute matching
-    - Logical filtering
     """
     
-    def __init__(self, vehicles_path: str):
-        if not os.path.exists(vehicles_path):
-            logger.error(f"Vehicles file not found at {vehicles_path}")
-            self.vehicles = []
-        else:
-            with open(vehicles_path, 'r', encoding='utf-8') as f:
-                self.vehicles = json.load(f)
+    def __init__(self):
+        from .database import db_handler
+        self.vehicles = db_handler.fetch_all_vehicles()
             
     def recommend(self, user_query: str) -> list:
         """
@@ -129,5 +120,5 @@ class VehicleRecommender:
 # Path to data in root directory
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA_PATH = os.path.join(ROOT_DIR, "data", "vehicles.json")
-recommender = VehicleRecommender(DATA_PATH)
+recommender = VehicleRecommender()
 
