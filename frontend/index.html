@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ford Intelligence System Console</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <link rel="stylesheet" href="/static/style.css?v=1.2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo-container">
+            <img src="/static/logo.png" alt="Ford" class="main-logo">
+            <div class="logo-text">Intelligence System</div>
+        </div>
+        <div style="color: var(--ford-silver); font-size: 0.8rem; font-weight: 600; opacity: 0.7;">
+            V1.1.0
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <button class="sidebar-btn active" onclick="showTab('ask-tab')">AI Assistant</button>
+            <button class="sidebar-btn" onclick="showTab('search-tab')">Technical Search</button>
+            <button class="sidebar-btn" onclick="showTab('recommend-tab')">Vehicle Matcher</button>
+            
+            <div style="margin-top: auto; padding: 1rem; border: 1px dashed var(--glass-border); border-radius: 4px; font-size: 0.75rem; color: var(--text-muted);">
+                <span style="color: var(--accent);">STATUS:</span> SECURE<br>
+                <span style="color: var(--accent);">ENGINE:</span> RAG-EN-V2<br>
+                <span style="color: var(--accent);">CONTEXT:</span> GROUNDED
+            </div>
+        </aside>
+
+        <main class="main-viewport">
+            <!-- AI Assistant Tab -->
+            <section id="ask-tab" class="tab-content active">
+                <div class="intel-card">
+                    <div id="chat-history">
+                        <div class="message ai-message">
+                            <strong>SYSTEM READY.</strong><br>
+                            Access to technical manuals, maintenance schedules, and engineering specifications granted. How can I assist you with Ford vehicle documentation today?
+                        </div>
+                    </div>
+                    <div class="input-frame">
+                        <input type="text" id="ask-input" placeholder="Query automotive intelligence..." onkeypress="handleEnter(event, 'ask')">
+                        <button class="action-btn" id="ask-btn" onclick="askAssistant()">
+                            <span id="ask-btn-text">Execute</span>
+                            <div class="loader" id="ask-loader"></div>
+                        </button>
+                    </div>
+                </div>
+                <div id="sources-container" style="margin-top: 2rem;"></div>
+            </section>
+
+            <!-- Search Tab -->
+            <section id="search-tab" class="tab-content">
+                <div class="intel-card">
+                    <div class="input-frame">
+                        <input type="text" id="search-input" placeholder="Keyword or semantic search across documentation..." onkeypress="handleEnter(event, 'search')">
+                        <button class="action-btn" id="search-btn" onclick="performSearch()">
+                            <span id="search-btn-text">Search</span>
+                            <div class="loader" id="search-loader"></div>
+                        </button>
+                    </div>
+                    <div id="search-results-list" class="result-grid">
+                        <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">Enter technical parameters to retrieve documentation snippets.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommend Tab -->
+            <section id="recommend-tab" class="tab-content">
+                <div class="intel-card">
+                    <h2 style="font-size: 1.2rem; color: white; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; border-left: 4px solid var(--ford-blue); padding-left: 10px;">Vehicle Matcher</h2>
+                    <p style="margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;">Submit requirements (usage, capacity, performance) to generate engineering-backed recommendations.</p>
+                    <div class="input-frame" style="flex-direction: column;">
+                        <textarea id="recommend-input" rows="4" placeholder="e.g. 'I require a high-torque utility vehicle for off-road towing with a minimum 2000lb payload.'" style="resize: none;"></textarea>
+                        <button class="action-btn" id="recommend-btn" style="height: 3.5rem; margin-top: 1rem;" onclick="getRecommendations()">
+                            <span id="recommend-btn-text">Match Vehicle</span>
+                            <div class="loader" id="recommend-loader"></div>
+                        </button>
+                    </div>
+                    <div id="recommend-results" class="result-grid" style="margin-top: 2rem;">
+                        <!-- Results injected here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/script.js?v=1.2"></script>
+</body>
+</html>

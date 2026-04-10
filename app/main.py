@@ -2,163 +2,105 @@ import os
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from .core.embeddings import engine
 from .core.rag import rag_assistant
 from .core.recommender import recommender
+from .core.intent import classifier
 from .models import (
     SearchRequest, SearchResult, 
     AskRequest, AskResponse, 
     RecommendRequest, RecommendResponse, Recommendation
 )
 
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+# Logging Configuration
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Lifespan context manager for FastAPI.
-    Handles startup (data loading, index building) and shutdown tasks.
-    """
+    """Initializes search engine with localized technical data on startup."""
     logger.info("Initializing Ford Vehicle Intelligence System...")
     try:
-        # Data is located in the root 'data' folder
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        data_dir = os.path.join(base_dir, "data")
-        engine.load_data(data_dir)
-        logger.info("System initialized successfully.")
+        engine.load_data(os.path.join(base_dir, "data"))
     except Exception as e:
-        logger.error(f"Initialization failed: {str(e)}")
-    
+        logger.error(f"Initialization failure: {e}")
     yield
-    
-    logger.info("Shutting down Ford Vehicle Intelligence System...")
-
-# Define metadata for tags to ensure clean URLs while maintaining professional display names in Swagger UI
-tags_metadata = [
-    {
-        "name": "system_health",
-        "description": "Operations to verify the operational status of the API.",
-    },
-    {
-        "name": "knowledge_retrieval",
-        "description": "Semantic search operations across vehicle manuals and technical specifications.",
-    },
-    {
-        "name": "ai_assistant",
-        "description": "RAG-based AI interactions providing grounded answers to automotive queries.",
-    },
-    {
-        "name": "vehicle_matching",
-        "description": "Logic-based recommendation engine for matching vehicles to user needs.",
-    },
-]
+    logger.info("System shutdown initiated.")
 
 app = FastAPI(
     title="Ford Vehicle Intelligence System",
-    description="""
-    Mini AI-Powered Automotive Knowledge Assistant for Ford Vehicles.
-    
-    Features:
-    - **Semantic Search**: Find relevant manual content using FAISS.
-    - **RAG Assistant**: Grounded AI answers to vehicle queries.
-    - **Vehicle Recommendation**: Logic-based matching for family and utility needs.
-    """,
-    version="1.1.0",
-    lifespan=lifespan,
-    openapi_tags=tags_metadata
+    description="Professional RAG-powered knowledge assistant for Ford automotive documentation.",
+    version="1.2.0",
+    lifespan=lifespan
 )
 
-@app.get("/", tags=["system_health"], operation_id="check_health")
-async def root():
-    """Health check endpoint to verify system status."""
-    return {
-        "status": "online",
-        "system": "Ford Vehicle Intelligence System API",
-        "version": "1.1.0"
-    }
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.post("/search", response_model=list[SearchResult], tags=["knowledge_retrieval"], operation_id="search_knowledge")
+# Frontend Integration
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+frontend_dir = os.path.join(base_dir, "frontend")
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+@app.get("/", include_in_schema=False)
+async def serve_frontend():
+    return FileResponse(os.path.join(frontend_dir, "index.html"))
+
+@app.get("/api/health", tags=["system"])
+async def health_check():
+    return {"status": "online", "engine": "RAG-EN-V2", "version": "1.2.0"}
+
+@app.post("/search", response_model=list[SearchResult], tags=["retrieval"])
 async def search_knowledge(request: SearchRequest):
-    """
-    **Semantic Search for Vehicle Knowledge.**
-    
-    Performs a high-dimensional vector search using FAISS to find technical 
-    specifications and manual content relevant to the user query.
-    """
-    try:
-        results = engine.search(request.query)
-        return [
-            SearchResult(
-                content=res['content'],
-                source=res['metadata']['source'],
-                id=res['metadata']['id'],
-                score=res['score']
-            ) for res in results
-        ]
-    except Exception as e:
-        logger.error(f"Search error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal search engine error")
+    """Semantic search across technical manuals and specifications."""
+    if not classifier.is_valid_query(request.query):
+        return []
+    results = engine.search(request.query)
+    return [SearchResult(content=res['content'], source=res['metadata']['source'], id=res['metadata']['id'], score=res['score']) for res in results]
 
-@app.post("/ask", response_model=AskResponse, tags=["ai_assistant"], operation_id="ask_assistant")
+@app.post("/ask", response_model=AskResponse, tags=["ai"])
 async def ask_assistant(request: AskRequest):
-    """
-    **RAG-Based Automotive AI Assistant.**
-    
-    Generates professional, grounded answers about Ford vehicles by 
-    augmenting LLM prompts with verified technical context.
-    """
+    """Grounded AI responses with intent detection and confidence scoring."""
     try:
-        # 1. Retrieve relevant context (Top-3)
+        intent_type, default_response = classifier.classify(request.question)
+        if intent_type != "informational":
+            return AskResponse(answer=default_response, context_used=[], suggestions=classifier.get_follow_up_suggestions(intent_type), intent=intent_type)
+
         context_docs = engine.search(request.question, top_k=3)
-        
-        # 2. Generate grounded answer via LLM
+        avg_score = sum(d['score'] for d in context_docs) / len(context_docs) if context_docs else 0
         answer = rag_assistant.generate_answer(request.question, context_docs)
         
         return AskResponse(
             answer=answer,
-            context_used=[
-                SearchResult(
-                    content=res['content'],
-                    source=res['metadata']['source'],
-                    id=res['metadata']['id'],
-                    score=res['score']
-                ) for res in context_docs
-            ]
+            context_used=[SearchResult(content=res['content'], source=res['metadata']['source'], id=res['metadata']['id'], score=res['score']) for res in context_docs],
+            suggestions=classifier.get_follow_up_suggestions("informational"),
+            intent="informational",
+            confidence=round(avg_score * 100, 1)
         )
     except Exception as e:
-        logger.error(f"Ask error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal RAG engine error")
+        logger.error(f"Ask Error: {e}")
+        raise HTTPException(status_code=500, detail="RAG system fault")
 
-@app.post("/recommend", response_model=RecommendResponse, tags=["vehicle_matching"], operation_id="recommend_vehicles")
+@app.post("/recommend", response_model=RecommendResponse, tags=["matching"])
 async def recommend_vehicles(request: RecommendRequest):
-    """
-    **Attribute-Based Vehicle Recommendations.**
-    
-    Analyzes user requirements (e.g., towing capacity, family seating) 
-    and returns top matching Ford models with logical reasoning.
-    """
+    """Attribute-based vehicle recommendation logic."""
     try:
         results = recommender.recommend(request.needs)
-        recommendations = [
-            Recommendation(
-                model=res['model'],
-                score=res['score'],
-                reasoning=res['reasoning']
-            ) for res in results
-        ]
-        return RecommendResponse(recommendations=recommendations)
+        return RecommendResponse(recommendations=[Recommendation(**res) for res in results])
     except Exception as e:
-        logger.error(f"Recommend error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal recommendation engine error")
+        logger.error(f"Recommend Error: {e}")
+        raise HTTPException(status_code=500, detail="Match engine fault")
 
 if __name__ == "__main__":
     import uvicorn
-    # Use port 8000 for standard API access
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
-

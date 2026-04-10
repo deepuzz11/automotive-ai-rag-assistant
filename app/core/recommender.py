@@ -51,56 +51,70 @@ class VehicleRecommender:
         }
         
         for vehicle in self.vehicles:
-            score = 0
+            score_acc = 0
             reasoning = []
             
             # 1. Family Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["family"]):
                 if vehicle.get("seats", 0) >= 5:
-                    score += 2
+                    score_acc += 3
                     reasoning.append(f"Provides ample seating ({vehicle['seats']} seats) for families.")
                 if vehicle["type"] == "SUV":
-                    score += 1
+                    score_acc += 2
             
             # 2. Towing Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["towing"]):
                 if vehicle.get("towing_capacity") != "N/A":
-                    score += 3
+                    score_acc += 5
                     reasoning.append(f"High towing capacity of {vehicle['towing_capacity']}.")
             
             # 3. Utility/Truck Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["truck"]):
                 if "Truck" in vehicle["type"]:
-                    score += 4
+                    score_acc += 5
                     reasoning.append("Solid pickup truck build for utility and payload.")
+            
+            # 4. Fuel Efficiency Intent Matching
+            if any(re.search(rf'\b{k}\b', query) for k in keywords["fuel-efficient"]):
+                # Usually Maverick/Escape are hybrids or highly efficient
+                if vehicle["model"].lower() in ["ford escape", "ford maverick"]:
+                    score_acc += 5
+                    reasoning.append("Highly fuel-efficient hybrid/EcoBoost powertrain options.")
+                elif "Hybrid" in vehicle.get("engine", ""):
+                    score_acc += 4
+                    reasoning.append("Hybrid powertrain provides excellent fuel economy.")
                     
-            # 4. Performance Intent Matching
+            # 5. Performance Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["sports"]):
                 if "Sports" in vehicle["type"]:
-                    score += 5
+                    score_acc += 6
                     reasoning.append("Iconic performance and high-output engine.")
             
-            # 5. Body Style Matching (SUV)
+            # 6. Body Style Matching (SUV)
             if any(re.search(rf'\b{k}\b', query) for k in keywords["suv"]):
                 if "SUV" in vehicle["type"]:
-                    score += 3
+                    score_acc += 3
                     reasoning.append("Versatile SUV body style with high driving position.")
             
-            # 6. City/Efficiency Intent Matching
+            # 7. City Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["city"]):
                 if vehicle["model"] in ["Ford Escape", "Ford Maverick"]:
-                    score += 4
+                    score_acc += 5
                     reasoning.append("Compact dimensions ideal for city navigation and parking.")
             
-            # 7. Specific Model Mention
+            # 8. Specific Model Mention
             if vehicle["model"].lower() in query:
-                score += 10
+                score_acc += 10
                 reasoning.append(f"Direct match for your interest in the {vehicle['model']}.")
 
-            if score > 0:
+            if score_acc > 0:
+                # Normalize score to 0.0 - 1.0 range
+                # Max typical score is around 15-20
+                final_score = min(score_acc / 12.0, 1.0)
+                
                 scored_vehicles.append({
                     "model": vehicle["model"],
-                    "score": score,
+                    "score": final_score,
                     "reasoning": " ".join(reasoning) if reasoning else "Matches your general lifestyle requirements."
                 })
         
@@ -109,6 +123,7 @@ class VehicleRecommender:
         
         # Return top 2 as required by assessment
         return scored_vehicles[:2]
+
 
 # Initialize Recommender
 # Path to data in root directory
