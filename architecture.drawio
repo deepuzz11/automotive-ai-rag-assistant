@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="AdvancedArchitecture" name="Advanced RAG Architecture - Ford Vehicle Assistant">
+    <mxGraphModel dx="1688" dy="752" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="diag_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="&lt;b&gt;&lt;font style=&#39;font-size: 24px;&#39;&gt;Automotive AI Assistant – RAG-Based System Architecture&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="1080" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_bg" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#F8F9FA;strokeColor=light-dark(#6f757b, #292c30);fontColor=#212529;rounded=1;" value="&lt;b&gt;USER INTERFACE&amp;nbsp;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="660" width="200" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="icon_user" parent="fe_bg" style="shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/1077/1077114.png;aspect=fixed;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="75" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="browser_ui" parent="fe_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#808080;strokeWidth=2;shadow=1;" value="&lt;b&gt;Modern Web UI&lt;/b&gt;&lt;br&gt;Industrial Ford Theme" vertex="1">
+          <mxGeometry height="80" width="160" x="20" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="api_call_box" parent="fe_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#808080;strokeWidth=2;shadow=1;" value="&lt;b&gt;API Client&lt;/b&gt;&lt;br&gt;Async Event Handlers" vertex="1">
+          <mxGeometry height="80" width="160" x="20" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="api_bg" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#E7F1FF;strokeColor=#0052CC;fontColor=#0052CC;rounded=1;" value="&lt;b&gt;APPLICATION LAYER&lt;/b&gt;" vertex="1">
+          <mxGeometry height="660" width="220" x="280" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fastapi_core" parent="api_bg" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div&gt;&lt;div&gt;&lt;b&gt;FastAPI Gateway (Uvicorn)&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Request Validation &amp;amp; Routing&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="180" x="20" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="endpoints" parent="api_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" value="&lt;b&gt;Primary Endpoints&lt;/b&gt;&lt;br&gt;/ask, /search, /recommend" vertex="1">
+          <mxGeometry height="80" width="180" x="20" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="core_bg" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#FFF4E5;strokeColor=#FF9900;fontColor=#CC7A00;rounded=1;" value="&lt;b&gt;RAG PIPELINE (Core Intelligence Layer)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="660" width="300" x="540" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="logic_classifier" parent="core_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;shadow=1;" value="&lt;b&gt;Intent Classifier&lt;/b&gt;&lt;br&gt;Query Routing: QA | Search | Recommendation" vertex="1">
+          <mxGeometry height="80" width="260" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="logic_embeddings" parent="core_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;shadow=1;" value="&lt;b&gt;Embedding Engine&lt;/b&gt;&lt;br&gt;Sentence-Transformers&lt;br&gt;(Real-time Query Vectorization)" vertex="1">
+          <mxGeometry height="80" width="260" x="20" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="logic_retriever" parent="core_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;shadow=1;" value="&lt;b&gt;Retriever&lt;/b&gt;&lt;br&gt;(Top-K Semantic Search)" vertex="1">
+          <mxGeometry height="80" width="260" x="20" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="logic_rag" parent="core_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;shadow=1;" value="&lt;b&gt;RAG Context Builder&lt;/b&gt;&lt;div&gt;&amp;nbsp;(Prompt Augmentation &amp;amp; Grounding)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="260" x="20" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="logic_recommender" parent="core_bg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;shadow=1;" value="&lt;b&gt;Vehicle Recommender&lt;/b&gt;&lt;br&gt;(Rule-based / Hybrid Logic)" vertex="1">
+          <mxGeometry height="80" width="260" x="20" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="data_bg" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=30;fillColor=#F3E5F5;strokeColor=#9C27B0;fontColor=#7B1FA2;rounded=1;" value="&lt;b&gt;KNOWLEDGE &amp;amp; DATA LAYER&lt;/b&gt;" vertex="1">
+          <mxGeometry height="660" width="240" x="880" y="60" as="geometry">
+            <mxRectangle height="30" width="130" x="880" y="60" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ext_groq" parent="data_bg" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" value="&lt;b&gt;LLM (Llama 3 via Groq API)&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Hallucination Mitigation via Grounding&lt;/font&gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="110" width="200" x="30" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="db_vector" parent="data_bg" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;b&gt;FAISS Index&lt;/b&gt;&lt;br&gt;Vector Data Store" vertex="1">
+          <mxGeometry height="150" width="140" x="70" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="db_json" parent="data_bg" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;b&gt;Context Builder &lt;/b&gt;(Prompt Augmentation &amp;amp; Grounding)" vertex="1">
+          <mxGeometry height="100" width="90" x="90" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="note_hallucination" parent="data_bg" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#E91E63;" value="&lt;b&gt;Hallucination Control&lt;/b&gt;&lt;br&gt;Grounded Response" vertex="1">
+          <mxGeometry height="30" width="120" x="70" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="api_call_box" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=light-dark(#000000,#23376B);exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="fastapi_core" value="Async HTTP Request">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="350" />
+              <mxPoint x="250" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="endpoints" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=2;" target="logic_classifier" value="Route Handlers">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="320" />
+              <mxPoint x="490" y="240" />
+              <mxPoint x="530" y="240" />
+              <mxPoint x="530" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="logic_classifier" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF9900;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;" target="logic_embeddings" value="Execute Pipeline">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="logic_embeddings" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;" target="db_vector" value="Cosine Similarity Search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="logic_retriever" value="Top-K Relevant Results">
+          <mxGeometry relative="1" x="0.0068" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="950" y="320" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="logic_retriever" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF9900;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;" target="logic_rag" value="Retrieved Context">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="logic_rag" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" target="ext_groq" value="Grounded Prompt&lt;br&gt;(Query + Retrieved Context)">
+          <mxGeometry relative="1" x="0.619" y="-35" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_loop" edge="1" parent="1" source="ext_groq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#05A677;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;dashed=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" target="fastapi_core" value="Generated Response">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1090" y="569" />
+              <mxPoint x="1090" y="740" />
+              <mxPoint x="520" y="740" />
+              <mxPoint x="520" y="120" />
+              <mxPoint x="390" y="120" />
+            </Array>
+            <mxPoint x="1071" y="670" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zveULU2ZnmYHo23dOMxo-5" connectable="0" parent="e_loop" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Text" vertex="1">
+          <mxGeometry relative="1" x="-0.9366" y="-13" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="logic_recommender" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;" target="db_json" value="Hybrid Logic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
