@@ -58,5 +58,50 @@
     "topic": "Sync 4 System Reset",
     "content": "If the infotainment screen freezes, you can perform a soft reset by holding the Volume Down and Seek Forward buttons on the steering wheel simultaneously for 10 seconds.",
     "category": "Troubleshooting"
+  },
+  {
+    "topic": "Pro Power Onboard Usage",
+    "content": "Pro Power Onboard allows you to use your truck as a mobile generator. Depending on the model, it can provide up to 9.6 kW of power. Use the outlets in the bed for high-draw tools. Monitor power usage via the SYNC 4 screen or FordPass app.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Over-the-Air (OTA) Updates",
+    "content": "Your vehicle is equipped with OTA updates to improve performance and add new features. Ensure your vehicle is connected to Wi-Fi for faster downloads. You can schedule updates for a specific time when the vehicle is not in use.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Emergency Door Release (Electric)",
+    "content": "In vehicles with electronic door latches, such as the Mustang Mach-E, there is a mechanical emergency release lever located on the door panel. Pull this lever fully to manually open the door if electrical power is lost.",
+    "category": "Emergency Procedures"
+  },
+  {
+    "topic": "SecuriCode Keypad Programming",
+    "content": "To set your own 5-digit code, enter the factory default code, press 1-2 on the keypad, enter your new 5-digit code, and finally press 1-2 again to save it for driver 1 or 3-4 for driver 2.",
+    "category": "Setting Configuration"
+  },
+  {
+    "topic": "Trailer Backup Assist",
+    "content": "The Pro Trailer Backup Assist allows you to steer the trailer with a knob on the instrument panel while the vehicle controls the steering wheel. You must first calibrate the system by following the on-screen prompts while driving straight.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Glossary: EcoBoost",
+    "content": "A family of turbocharged, direct-injection gasoline engines designed by Ford to deliver horsepower and torque consistent with those of larger-displacement engines, while achieving better fuel efficiency.",
+    "category": "Glossary"
+  },
+  {
+    "topic": "Glossary: BlueCruise",
+    "content": "Ford's hands-free highway driving technology that allows for hands-free operation on pre-qualified sections of divided highways.",
+    "category": "Glossary"
+  },
+  {
+    "topic": "Glossary: G.O.A.T. Modes",
+    "content": "Goes Over Any Type of Terrain. A management system in the Ford Bronco that adjusts steering, handling, and powertrain response to suit different off-road conditions.",
+    "category": "Glossary"
+  },
+  {
+    "topic": "Glossary: SYNC 4",
+    "content": "Ford's latest infotainment system, featuring cloud connectivity, wireless smartphone integration (Apple CarPlay/Android Auto), and enhanced voice recognition.",
+    "category": "Glossary"
   }
 ]

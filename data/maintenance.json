@@ -62,5 +62,29 @@
     "warranty": "EV Battery Warranty",
     "details": "8-year/100,000-mile warranty for high-voltage battery and associated components.",
     "applicable_models": ["Ford Mustang Mach-E", "F-150 Lightning", "Hybrid Models"]
+  },
+  {
+    "service": "12V Battery Replacement",
+    "frequency": "Every 3 - 5 years",
+    "details": "Replace the 12V lead-acid battery to ensure reliable starting and accessory power. Test charging system.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "service": "Wiper Blade Replacement",
+    "frequency": "Every 6 - 12 months",
+    "details": "Inspect and replace front and rear (if equipped) wiper blades for optimal visibility during rain or snow.",
+    "applicable_models": ["All Ford Models"]
+  },
+  {
+    "service": "Differential Fluid Change",
+    "frequency": "Every 150,000 miles",
+    "details": "Change the rear and/or front differential fluid to ensure long component life and smooth power delivery.",
+    "applicable_models": ["All Ford 4WD/AWD Models", "F-150", "Bronco", "Explorer"]
+  },
+  {
+    "service": "Timing Belt Inspection",
+    "frequency": "Every 100,000 - 150,000 miles",
+    "details": "Inspect the timing belt for wear, cracking, or glazing. Replace if necessary to prevent catastrophic engine damage.",
+    "applicable_models": ["Ford Models with Timing Belts"]
   }
 ]

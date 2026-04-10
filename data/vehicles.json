@@ -97,5 +97,49 @@
     "seats": 5,
     "towing_capacity": "N/A",
     "description": "The Mustang Mach-E is Ford's flagship electric SUV, combining performance legendary Mustang DNA with modern EV technology."
+  },
+  {
+    "model": "Ford F-150 Lightning",
+    "type": "Electric Pickup Truck",
+    "engine": "Dual Electric Motors",
+    "transmission": "Single-Speed",
+    "fuel_type": "Electric",
+    "safety_features": ["Pro Trailer Hitch Assist", "Ford Co-Pilot360 2.0", "Intelligent Range"],
+    "seats": 5,
+    "towing_capacity": "10,000 lbs",
+    "description": "The F-150 Lightning is the all-electric version of America's favorite truck, featuring massive torque and exportable power."
+  },
+  {
+    "model": "Ford Bronco Sport",
+    "type": "Compact SUV",
+    "engine": "1.5L EcoBoost / 2.0L EcoBoost",
+    "transmission": "8-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["H.O.S.S. Suspension", "Terrain Management", "Rear View Camera"],
+    "seats": 5,
+    "towing_capacity": "2,000 - 2,200 lbs",
+    "description": "The Bronco Sport is a smaller, more city-friendly rugged SUV with impressive off-road capabilities."
+  },
+  {
+    "model": "Ford Edge",
+    "type": "Mid-size SUV",
+    "engine": "2.0L EcoBoost / 2.7L V6",
+    "transmission": "8-Speed Automatic / 7-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Enhanced Active Park Assist", "Evasive Steering Assist", "Lane-Keeping System"],
+    "seats": 5,
+    "towing_capacity": "1,500 - 3,500 lbs",
+    "description": "The Ford Edge is a refined mid-size SUV that prioritizes technology and comfort for two rows of passengers."
+  },
+  {
+    "model": "Ford Transit",
+    "type": "Commercial Van",
+    "engine": "3.5L PFDi V6 / 3.5L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline / Electric (E-Transit)",
+    "safety_features": ["Side Wind Stabilization", "Forward Collision Warning", "Post-Collision Braking"],
+    "seats": "2 - 15",
+    "towing_capacity": "4,000 - 6,800 lbs",
+    "description": "The Ford Transit is the ultimate commercial tool, available in multiple lengths and heights for any business need."
   }
 ]

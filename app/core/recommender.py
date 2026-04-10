@@ -121,7 +121,7 @@ class VehicleRecommender:
         # Sort by score descending
         scored_vehicles.sort(key=lambda x: x["score"], reverse=True)
         
-        # Return top 2 as required by assessment
+        # Return top 2 as required
         return scored_vehicles[:2]
 
 
