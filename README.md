@@ -1,5 +1,5 @@
 # Ford Vehicle Intelligence Assistant
-## AI Engineer Technical Assessment
+## RAG based Automotive Knowledge Assistant
 
 An AI-powered assistant that helps users find information about Ford vehicles, including specifications, maintenance schedules, and technical manuals. The system uses a Retrieval-Augmented Generation (RAG) approach to provide accurate answers based on a structured automotive dataset. It includes semantic search, a chat assistant, and a recommendation tool to match vehicles with user needs.
 
