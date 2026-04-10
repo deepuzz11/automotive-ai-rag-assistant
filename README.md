@@ -27,6 +27,10 @@ To ensure safety and accuracy, the system is designed to only use retrieved data
 
 ---
 
+## Architecture Diagram
+<img width="1169" height="827" alt="1 drawio" src="https://github.com/user-attachments/assets/9c5b0b37-028e-4f3b-804a-fe1516959f89" />
+
+
 ## Project Structure
 ```text
 ├── app/
