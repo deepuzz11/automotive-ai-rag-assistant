@@ -310,19 +310,21 @@ async function getRecommendations() {
             list.innerHTML = '<p class="empty-state">No vehicles matched your requirements. Try describing your needs differently (e.g., towing, family, city driving).</p>';
         } else {
             data.recommendations.forEach((rec, idx) => {
+                const relevanceClass = rec.score >= 0.7 ? 'high' : rec.score >= 0.4 ? 'medium' : 'low';
                 const item = document.createElement('div');
                 item.className = 'result-hex recommend-card';
                 item.innerHTML = `
                     <div class="rec-header">
                         <span class="rec-rank">#${idx + 1}</span>
                         <h3 class="rec-model">${rec.model.toUpperCase()}</h3>
-                        <span class="rec-score">${rec.score} pts</span>
+                        <span class="relevance-pill ${relevanceClass}">RELEVANCE: ${(rec.score * 100).toFixed(0)}%</span>
                     </div>
                     <p class="rec-reasoning">${formatResponse(rec.reasoning)}</p>
                 `;
                 list.appendChild(item);
             });
         }
+
     } catch (error) {
         list.innerHTML = '<p style="color: #ff4d4d; text-align: center;">Recommendation engine unavailable.</p>';
         console.error(error);

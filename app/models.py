@@ -25,7 +25,7 @@ class RecommendRequest(BaseModel):
 
 class Recommendation(BaseModel):
     model: str
-    score: int
+    score: float
     reasoning: str
 
 class RecommendResponse(BaseModel):
