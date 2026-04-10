@@ -35,7 +35,7 @@ To ensure safety and accuracy, the system is designed to only use retrieved data
 The system is built on a modular four-tier architecture designed for high performance, technical accuracy, and safety-critical grounding.
 
 #### 1. User Interface Layer
-- **Modern Web UI**: A premium industrial-themed frontend designed with Ford's aesthetic in mind. It provides separate interfaces for Chat, Semantic Search, and Vehicle Recommendations.
+- **Modern Web UI**: A frontend designed to provides separate interfaces for Chat, Semantic Search, and Vehicle Recommendations.
 - **API Client**: Handles asynchronous event-driven communication with the backend to ensure a responsive, non-blocking user experience.
 
 #### 2. Application Layer (FastAPI Gateway)
