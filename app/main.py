@@ -70,23 +70,38 @@ async def search_knowledge(request: SearchRequest):
 
 @app.post("/ask", response_model=AskResponse, tags=["ai"])
 async def ask_assistant(request: AskRequest):
-    """Grounded AI responses with intent detection and confidence scoring."""
+    """Grounded AI responses with intent detection, confidence scoring, and persistent caching."""
     try:
+        from .core.database import db_handler
+        
+        # 1. Intent Detection
         intent_type, default_response = classifier.classify(request.question)
         if intent_type != "informational":
             return AskResponse(answer=default_response, context_used=[], suggestions=classifier.get_follow_up_suggestions(intent_type), intent=intent_type)
+            
+        # 2. Check Cache
+        cached_response = db_handler.get_cached_query(request.question)
+        if cached_response:
+            logger.info(f"Cache hit for query: {request.question}")
+            return AskResponse(**cached_response)
 
+        # 3. Perform RAG
         context_docs = engine.search(request.question, top_k=3)
         avg_score = sum(d['score'] for d in context_docs) / len(context_docs) if context_docs else 0
         answer = rag_assistant.generate_answer(request.question, context_docs)
         
-        return AskResponse(
+        response = AskResponse(
             answer=answer,
             context_used=[SearchResult(content=res['content'], source=res['metadata']['source'], id=res['metadata']['id'], score=res['score']) for res in context_docs],
             suggestions=classifier.get_follow_up_suggestions("informational"),
             intent="informational",
             confidence=round(avg_score * 100, 1)
         )
+        
+        # 4. Save to Cache
+        db_handler.set_cached_query(request.question, response.dict())
+        
+        return response
     except Exception as e:
         logger.error(f"Ask Error: {e}")
         raise HTTPException(status_code=500, detail="RAG system fault")

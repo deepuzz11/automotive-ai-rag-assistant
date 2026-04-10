@@ -46,6 +46,15 @@ def create_tables(conn):
         category TEXT
     )
     ''')
+
+    # Query Cache table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS query_cache (
+        query_text TEXT PRIMARY KEY,
+        response_json TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
     
     conn.commit()
 
