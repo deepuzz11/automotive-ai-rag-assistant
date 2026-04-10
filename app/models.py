@@ -16,6 +16,9 @@ class AskRequest(BaseModel):
 class AskResponse(BaseModel):
     answer: str
     context_used: List[SearchResult]
+    suggestions: List[str] = []
+    intent: str = "informational"
+    confidence: Optional[float] = None
 
 class RecommendRequest(BaseModel):
     needs: str = Field(..., min_length=1, example="I need a family SUV with lots of space")
