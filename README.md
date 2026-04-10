@@ -1,5 +1,5 @@
 # Ford Vehicle Intelligence Assistant
-## AI Engineer Technical Assessment
+## RAG based Automotive Knowledge Assistant
 
 An AI-powered assistant that helps users find information about Ford vehicles, including specifications, maintenance schedules, and technical manuals. The system uses a Retrieval-Augmented Generation (RAG) approach to provide accurate answers based on a structured automotive dataset. It includes semantic search, a chat assistant, and a recommendation tool to match vehicles with user needs.
 
@@ -26,6 +26,10 @@ RAG (Retrieval-Augmented Generation) is a technique where the system first retri
 To ensure safety and accuracy, the system is designed to only use retrieved data. If the required information is not available, it returns "I don't know" instead of generating incorrect answers.
 
 ---
+
+## Architecture Diagram
+<img width="1169" height="827" alt="1 drawio" src="https://github.com/user-attachments/assets/9c5b0b37-028e-4f3b-804a-fe1516959f89" />
+
 
 ## Project Structure
 ```text
