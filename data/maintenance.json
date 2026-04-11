@@ -86,5 +86,53 @@
     "frequency": "Every 100,000 - 150,000 miles",
     "details": "Inspect the timing belt for wear, cracking, or glazing. Replace if necessary to prevent catastrophic engine damage.",
     "applicable_models": ["Ford Models with Timing Belts"]
+  },
+  {
+    "service": "Brake Fluid Flush",
+    "frequency": "Every 2 - 3 years",
+    "details": "Drain and replace brake fluid to remove moisture and prevent internal corrosion of the braking system.",
+    "applicable_models": ["All Models"]
+  },
+  {
+    "service": "Cooling System Service",
+    "frequency": "Every 5 years or 100,000 miles",
+    "details": "Flush the cooling system and replace the coolant to ensure proper engine temperature regulation.",
+    "applicable_models": ["All Gasoline/Hybrid Models"]
+  },
+  {
+    "service": "Wheel Alignment",
+    "frequency": "As needed (recommended annually)",
+    "details": "Adjust the angles of the wheels to the manufacturer's specifications to ensure even tire wear and proper handling.",
+    "applicable_models": ["All Models"]
+  },
+  {
+    "service": "Serpentine Belt Replacement",
+    "frequency": "Every 60,000 - 100,000 miles",
+    "details": "Replace the drive belt that powers accessories like the alternator, power steering, and AC compressor.",
+    "applicable_models": ["All Gasoline Models"]
+  },
+  {
+    "service": "Battery Terminal Cleaning",
+    "frequency": "Every 12 months",
+    "details": "Remove corrosion from battery terminals and apply protective spray to ensure reliable electrical connections.",
+    "applicable_models": ["All Models with 12V Battery"]
+  },
+  {
+    "service": "Diesel Exhaust Fluid (DEF) Refill",
+    "frequency": "As indicated by message center",
+    "details": "Refill the DEF tank to ensure the selective catalytic reduction (SCR) system can properly reduce NOx emissions.",
+    "applicable_models": ["Ford F-250 Super Duty", "Ford F-350 Super Duty", "Ford Transit Diesel"]
+  },
+  {
+    "service": "Diesel Fuel Filter Replacement",
+    "frequency": "Every 15,000 - 30,000 miles",
+    "details": "Replace the primary and secondary fuel filters to protect the high-pressure fuel system from contaminants and water.",
+    "applicable_models": ["Ford F-250 Super Duty", "Ford F-350 Super Duty", "Ford Transit Diesel"]
+  },
+  {
+    "service": "Heavy Duty Transmission Fluid Service",
+    "frequency": "Every 60,000 miles (severe duty) or 150,000 miles (normal)",
+    "details": "Replace transmission fluid and filter. Severe duty includes frequent towing, hauling, or off-road use.",
+    "applicable_models": ["Ford F-250 Super Duty", "Ford F-350 Super Duty"]
   }
 ]

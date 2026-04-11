@@ -66,7 +66,7 @@
   },
   {
     "topic": "Over-the-Air (OTA) Updates",
-    "content": "Your vehicle is equipped with OTA updates to improve performance and add new features. Ensure your vehicle is connected to Wi-Fi for faster downloads. You can schedule updates for a specific time when the vehicle is not in use.",
+    "content": "Your Ford vehicle receives OTA updates periodically, typically every 2-4 months or as critical improvements become available. These updates enhance SYNC 4 features, safety systems, and vehicle performance. Ensure your vehicle is connected to Wi-Fi for faster downloads. You can schedule updates for a specific time when the vehicle is not in use.",
     "category": "Feature Information"
   },
   {
@@ -103,5 +103,50 @@
     "topic": "Glossary: SYNC 4",
     "content": "Ford's latest infotainment system, featuring cloud connectivity, wireless smartphone integration (Apple CarPlay/Android Auto), and enhanced voice recognition.",
     "category": "Glossary"
+  },
+  {
+    "topic": "Child Safety: LATCH System",
+    "content": "The Lower Anchors and Tethers for CHildren (LATCH) system makes it easier to install child safety seats. Locate the anchors in the seat bight and attach the seat connectors. Secure the top tether to the anchor behind the seat.",
+    "category": "Safety"
+  },
+  {
+    "topic": "Emergency Fuel Door Release",
+    "content": "If the fuel door fails to open electrically, locate the manual release pull-cable behind the access panel in the trunk or cargo area (usually on the same side as the fuel door). Pull the cable to release the latch.",
+    "category": "Emergency Procedures"
+  },
+  {
+    "topic": "Traction Control System (TCS)",
+    "content": "TCS helps prevent wheel spin by reducing engine power or applying brakes to individual wheels. You can temporarily disable it (e.g., when stuck in deep snow) using the TCS button or via the infotainment settings.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Jump Starting Safety",
+    "content": "When jump-starting, always connect the positive (+) lead to the positive terminal of the dead battery first, then to the good battery. Connect the negative (-) lead to the good battery, and finally to a solid, unpainted metal ground point on the engine block of the dead vehicle—NOT the negative terminal of the dead battery.",
+    "category": "Maintenance"
+  },
+  {
+    "topic": "Electronic Stability Control (ESC)",
+    "content": "ESC uses sensors to monitor the vehicle's direction and helps the driver maintain control during cornering or sudden maneuvers by applying brakes to individual wheels and adjusting engine torque.",
+    "category": "Safety"
+  },
+  {
+    "topic": "Ford Trailer Reverse Guidance",
+    "content": "Trailer Reverse Guidance uses cameras in the sideview mirrors and visual cues on the touchscreen to help you stay in control while backing up a trailer. It provides multiple views and auto-tracking to keep the trailer hitch in sight.",
+    "category": "Feature Information"
+  },
+  {
+    "topic": "Intelligent Oil-Life Monitor (IOLM)",
+    "content": "Your Ford vehicle is equipped with an IOLM that calculates oil change intervals based on engine operating conditions. It will alert you via the instrument cluster when service is required. Do not exceed one year or 10,000 miles between changes.",
+    "category": "Maintenance"
+  },
+  {
+    "topic": "Ford MyKey Technology",
+    "content": "MyKey allows you to program keys with restricted vehicle modes to promote good driving habits. You can limit top speeds, set seatbelt reminders that mute the audio system, and set permanent safety feature activations.",
+    "category": "Safety"
+  },
+  {
+    "topic": "Power Tailgate Operation",
+    "content": "On equipped Ford trucks and SUVs, you can operate the power tailgate via the instrument panel button, the key fob, or by pressing the release button on the tailgate itself. Ensure the area is clear before operation.",
+    "category": "Feature Information"
   }
 ]

@@ -56,9 +56,18 @@ class VehicleRecommender:
             
             # 1. Family Intent Matching
             if any(re.search(rf'\b{k}\b', query) for k in keywords["family"]):
-                if vehicle.get("seats", 0) >= 5:
+                # Handle cases where 'seats' might be a string (e.g., "2-15")
+                seats_val = vehicle.get("seats", 0)
+                try:
+                    num_seats = int(seats_val)
+                except (ValueError, TypeError):
+                    # If it's a range like "2 - 15", take the max
+                    matches = re.findall(r'\d+', str(seats_val))
+                    num_seats = max(map(int, matches)) if matches else 0
+
+                if num_seats >= 5:
                     score_acc += 3
-                    reasoning.append(f"Provides ample seating ({vehicle['seats']} seats) for families.")
+                    reasoning.append(f"Provides ample seating ({seats_val} seats) for families.")
                 if vehicle["type"] == "SUV":
                     score_acc += 2
             

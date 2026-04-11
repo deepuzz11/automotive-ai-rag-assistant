@@ -141,5 +141,71 @@
     "seats": "2 - 15",
     "towing_capacity": "4,000 - 6,800 lbs",
     "description": "The Ford Transit is the ultimate commercial tool, available in multiple lengths and heights for any business need."
+  },
+  {
+    "model": "Ford F-250 Super Duty",
+    "type": "Heavy Duty Pickup",
+    "engine": "6.7L High Output Power Stroke V8 Turbo Diesel / 7.3L V8 Gas",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Diesel / Gasoline",
+    "safety_features": ["Trailer Reverse Guidance", "360-Degree Camera System", "Pro Trailer Backup Assist"],
+    "seats": 5,
+    "towing_capacity": "23,000 lbs",
+    "description": "The Ford F-250 Super Duty is a massive powerhouse built for the most extreme towing and commercial applications."
+  },
+  {
+    "model": "Ford GT",
+    "type": "Supercar",
+    "engine": "3.5L V6 Twin-Turbo",
+    "transmission": "7-Speed Dual-Clutch",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Active Aerodynamics", "Carbon Fiber Construction", "Carbon Ceramic Brakes"],
+    "seats": 2,
+    "towing_capacity": "N/A",
+    "description": "The Ford GT is a ultra-high-performance supercar designed to win at Le Mans and conquer the track."
+  },
+  {
+    "model": "Ford Bronco Raptor",
+    "type": "Performance Off-Road SUV",
+    "engine": "3.0L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["H.O.S.S. 4.0 Suspension", "Live Valve Fox Shocks", "Rigid Fog Lamps"],
+    "seats": 5,
+    "towing_capacity": "4,500 lbs",
+    "description": "The Ford Bronco Raptor is the most powerful street-legal Bronco ever, built for high-speed desert running."
+  },
+  {
+    "model": "Ford Explorer ST",
+    "type": "Performance SUV",
+    "engine": "3.0L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Sport-Tuned Suspension", "Intelligent 4WD", "Ford Co-Pilot360 Assist+"],
+    "seats": 7,
+    "towing_capacity": "5,600 lbs",
+    "description": "The Explorer ST combines the versatility of a family SUV with the performance and handling of a sports car."
+  },
+  {
+    "model": "Ford Expedition Timberline",
+    "type": "Off-Road Full-size SUV",
+    "engine": "3.5L EcoBoost V6 High-Output",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["33-inch All-Terrain Tires", "Trail Turn Assist", "Underbody Shielding"],
+    "seats": 8,
+    "towing_capacity": "9,200 lbs",
+    "description": "The Expedition Timberline is the most off-road capable Expedition ever, with increased ground clearance and rugged features."
+  },
+  {
+    "model": "Ford Ranger Raptor",
+    "type": "Performance Pickup Truck",
+    "engine": "3.0L EcoBoost V6",
+    "transmission": "10-Speed Automatic",
+    "fuel_type": "Gasoline",
+    "safety_features": ["Watt's Link Rear Suspension", "Baja Driving Mode", "Full Underbody Protection"],
+    "seats": 5,
+    "towing_capacity": "5,510 lbs",
+    "description": "The Ranger Raptor is the ultimate mid-size off-road performance pickup, featuring race-bred suspension and power."
   }
 ]
