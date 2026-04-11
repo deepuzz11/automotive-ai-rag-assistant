@@ -112,5 +112,59 @@ ANSWER:"""
             logger.error(f"Groq API Error: {str(e)}")
             return "I apologize, but I encountered a technical error while connecting to the AI reasoning engine. Please try again later or contact support if the issue persists."
 
+    def frame_recommendation(self, user_needs: str, recommendations: list, context: str = "") -> str:
+        """
+        Frames the rule-based recommendations into a professional, conversational response.
+        """
+        if not self.client:
+            return "Error: API Key not configured. Recommendations cannot be framed."
+
+        if not recommendations:
+            return "Based on your requirements, I couldn't find a perfect match in our current lineup. Could you please provide more details about your needs?"
+
+        # Format recommendations for the LLM
+        rec_details = []
+        for i, rec in enumerate(recommendations, 1):
+            rec_details.append(f"{i}. {rec['model']} (Match Score: {int(rec['score']*100)}%)\n   Match Logic: {rec['reasoning']}")
+        
+        recs_str = "\n".join(rec_details)
+
+        system_prompt = """You are a senior Ford Vehicle Consultant. Your goal is to explain WHY specific Ford models were recommended to a customer based on their stated needs.
+        
+RESPONSE GUIDELINES:
+1. Tone: Professional, authoritative yet friendly, and highly knowledgeable.
+2. Structure: 
+   - Start with a warm greeting and briefly summarize how these vehicles meet their specific needs.
+   - For each recommended model, provide a compelling explanation of its value proposition.
+   - Use the provided 'Technical Specs' and 'Match Logic' to build a solid case for each vehicle.
+   - Highlight unique features (like Pro Trailer Backup Assist for towing or H.O.S.S. suspension for off-road).
+3. Clarity: Use bullet points for key specs and bold the model names.
+4. Call to Action: Suggest a next step, such as asking for specific maintenance info or comparing two of the models."""
+
+        user_prompt = f"""USER NEEDS: {user_needs}
+
+RECOMMENDED MODELS (Rule-Based Selection):
+{recs_str}
+
+TECHNICAL SPECS (Context):
+{context}
+
+Please frame these recommendations into a cohesive, professional response. Show the user you understand their unique requirements and explain why these specific Ford vehicles are the perfect solution."""
+
+        try:
+            chat_completion = self.client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                model=self.model,
+                temperature=0.3, # Slightly higher for more creative framing
+                max_tokens=800,
+            )
+            return chat_completion.choices[0].message.content
+        except Exception as e:
+            logger.error(f"Groq API Error in framing: {str(e)}")
+            return "I have found some great options for you! Here are my top recommendations based on your needs."
+
 # Singleton instance
 rag_assistant = AutomotiveRAG()

@@ -134,8 +134,32 @@ class VehicleRecommender:
         return scored_vehicles[:2]
 
 
+    def build_context(self, recommendations: list) -> str:
+        """
+        Builds a detailed context string for the top recommendations.
+        This serves as the 'Context Builder' phase.
+        """
+        context_parts = []
+        for rec in recommendations:
+            # Find the full vehicle record to get all attributes
+            vehicle = next((v for v in self.vehicles if v["model"] == rec["model"]), None)
+            if vehicle:
+                specs = [
+                    f"- Model: {vehicle['model']}",
+                    f"- Type: {vehicle['type']}",
+                    f"- Engine: {vehicle['engine']}",
+                    f"- Transmission: {vehicle['transmission']}",
+                    f"- Fuel: {vehicle['fuel_type']}",
+                    f"- Seats: {vehicle['seats']}",
+                    f"- Towing: {vehicle['towing_capacity']}",
+                    f"- Safety: {', '.join(vehicle['safety_features'])}",
+                    f"- Description: {vehicle['description']}"
+                ]
+                context_parts.append("\n".join(specs))
+        
+        return "\n\n---\n\n".join(context_parts)
+
 # Initialize Recommender
-# Path to data in root directory
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA_PATH = os.path.join(ROOT_DIR, "data", "vehicles.json")
 recommender = VehicleRecommender(DATA_PATH)

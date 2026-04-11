@@ -309,6 +309,20 @@ async function getRecommendations() {
         if (data.recommendations.length === 0) {
             list.innerHTML = '<p class="empty-state">No vehicles matched your requirements. Try describing your needs differently (e.g., towing, family, city driving).</p>';
         } else {
+            // Add AI Summary if available
+            if (data.summary) {
+                const summaryDiv = document.createElement('div');
+                summaryDiv.className = 'ai-summary-box';
+                summaryDiv.innerHTML = `
+                    <div class="summary-header">
+                        <span class="ai-burst-icon">✨</span>
+                         Professional Recommendation Analysis
+                    </div>
+                    <div class="summary-content">${formatResponse(data.summary)}</div>
+                `;
+                list.appendChild(summaryDiv);
+            }
+
             data.recommendations.forEach((rec, idx) => {
                 const relevanceClass = rec.score >= 0.7 ? 'high' : rec.score >= 0.4 ? 'medium' : 'low';
                 const item = document.createElement('div');

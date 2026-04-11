@@ -93,10 +93,25 @@ async def ask_assistant(request: AskRequest):
 
 @app.post("/recommend", response_model=RecommendResponse, tags=["matching"])
 async def recommend_vehicles(request: RecommendRequest):
-    """Attribute-based vehicle recommendation logic."""
+    """Attribute-based vehicle recommendation logic with AI framing."""
     try:
+        # Phase 1: Rule-based Filtering & Scoring
         results = recommender.recommend(request.needs)
-        return RecommendResponse(recommendations=[Recommendation(**res) for res in results])
+        
+        # Phase 2: Context Builder (Enriching the candidates with full specs)
+        recommendation_context = recommender.build_context(results)
+        
+        # Phase 3: LLM Framing
+        ai_summary = rag_assistant.frame_recommendation(
+            user_needs=request.needs, 
+            recommendations=results, 
+            context=recommendation_context
+        )
+        
+        return RecommendResponse(
+            recommendations=[Recommendation(**res) for res in results],
+            summary=ai_summary
+        )
     except Exception as e:
         logger.error(f"Recommend Error: {e}")
         raise HTTPException(status_code=500, detail="Match engine fault")

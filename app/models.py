@@ -30,3 +30,4 @@ class Recommendation(BaseModel):
 
 class RecommendResponse(BaseModel):
     recommendations: List[Recommendation]
+    summary: Optional[str] = None

@@ -367,12 +367,56 @@ input[type="text"], textarea {
 }
 
 /* --- Recommendations --- */
+/* --- Recommendations --- */
 .recommend-card { border-left: 4px solid var(--ford-blue); }
 .rec-header { display: flex; align-items: center; gap: 15px; margin-bottom: 1rem; }
 .rec-rank { background: var(--ford-blue); color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.7rem; font-weight: 900; }
 .rec-model { font-size: 1.1rem; color: white; letter-spacing: 1px; }
 .rec-score { margin-left: auto; font-size: 0.75rem; color: var(--accent); font-weight: 800; }
 .rec-reasoning { font-size: 0.9rem; border-top: 1px solid var(--glass-border); padding-top: 1rem; }
+
+/* --- AI Summary Box --- */
+.ai-summary-box {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(0, 52, 120, 0.1));
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-summary-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent);
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.ai-burst-icon {
+    font-size: 1.2rem;
+}
+
+.summary-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-main);
+}
 
 /* Responsive */
 @media (max-width: 1000px) {
